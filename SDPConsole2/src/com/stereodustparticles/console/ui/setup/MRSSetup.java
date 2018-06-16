@@ -34,12 +34,14 @@ public class MRSSetup {
 		
 		// Root
 		VBox root = new VBox(40);
+		root.setAlignment(Pos.CENTER);
+		root.setPadding(new Insets(20, 25, 20, 25));
 		
 		// Text fields in grid
 		GridPane mtxPane = new GridPane();
 		mtxPane.setHgap(18);
 		mtxPane.setVgap(6);
-		mtxPane.setPadding(new Insets(25, 25, 25, 25));
+		mtxPane.setPadding(new Insets(15, 15, 15, 15));
 		
 		mtxPane.add(new Label("Base URL:"), 0, 0);
 		mtxPane.add(new Label("API Key:"), 0, 1);
