@@ -59,4 +59,9 @@ public class MRSIntegration {
 	public static boolean test() {
 		return mrs.test();
 	}
+	
+	// Get the observable request list
+	public static ObservableList<Request> getRequestList() {
+		return reqList;
+	}
 }
