@@ -8,6 +8,7 @@
  */
 package com.stereodustparticles.console.ui.setup;
 
+import com.stereodustparticles.console.mrs.MRSIntegration;
 import com.stereodustparticles.console.pref.Prefs;
 
 import javafx.geometry.Insets;
@@ -69,6 +70,7 @@ public class MRSSetup {
 			Prefs.saveString(Prefs.MRS_KEY, key.getText());
 			
 			stage.close();
+			MRSIntegration.init();
 		});
 		
 		cancel.setOnAction((e) -> stage.close());
