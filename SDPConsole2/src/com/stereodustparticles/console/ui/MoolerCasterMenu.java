@@ -6,6 +6,8 @@ import java.io.IOException;
 import com.stereodustparticles.console.SDPConsole2;
 import com.stereodustparticles.console.Utils;
 import com.stereodustparticles.console.deck.Decks;
+import com.stereodustparticles.console.error.MRSException;
+import com.stereodustparticles.console.mrs.MRSIntegration;
 import com.stereodustparticles.console.multi.MultiConsole;
 import com.stereodustparticles.console.playlist.Playlist;
 import com.stereodustparticles.console.pref.Prefs;
@@ -161,7 +163,25 @@ public class MoolerCasterMenu extends MenuBar {
 		
 		// - Open/Close MRS
 		MenuItem openClose = new MenuItem("Open/Close MRS");
-		// openClose.setOnAction...
+		openClose.setOnAction((e) -> {
+			if ( ! MRSIntegration.isConfigured() ) {
+				Microwave.showError("You only had ONE JOB!", "MRS integration is not configured.  You need to enter a valid URL and API key.");
+			}
+			
+			try {
+				boolean newState = MRSIntegration.toggleStatus();
+				
+				if ( newState ) {
+					Microwave.showInfo("WHOOOOOO!", "Request lines are now open.");
+				}
+				else {
+					Microwave.showInfo("Hold The Line!", "Request lines are now closed.");
+				}
+			}
+			catch (MRSException e1) {
+				Microwave.showError("The MRS Doesn't Like You...", "Opening/closing the MRS failed with the following error:\n\n" + e1.getMessage() + "Microwave components as necessary, then try again.");
+			}
+		});
 		
 		// - Configure MRS...
 		MenuItem configMRS = new MenuItem("Configure MRS...");

@@ -7,7 +7,6 @@ import com.stereodustparticles.console.Utils;
 import com.stereodustparticles.console.deck.DeckLoadRequest;
 import com.stereodustparticles.console.deck.Decks;
 import com.stereodustparticles.console.error.HTTPException;
-import com.stereodustparticles.console.error.MRSPasswordException;
 import com.stereodustparticles.console.error.ModemDefenestrationException;
 import com.stereodustparticles.console.event.Event;
 import com.stereodustparticles.console.event.EventBus;
@@ -630,9 +629,6 @@ public class MoolerCasterView {
 		}
 		catch (FileNotFoundException e) {
 			Platform.runLater(() -> Microwave.showError("Error Loading Library", "The requested library is pointing at an invalid directory.  Are you sure it (still) exists?"));
-		}
-		catch (MRSPasswordException e) {
-			Platform.runLater(() -> Microwave.showError("Error Loading Library", "The MRS has rejected you!  Are you sure that was the right password?"));
 		}
 		catch (Exception e) {
 			// If we hit this point, some unknown error has occurred

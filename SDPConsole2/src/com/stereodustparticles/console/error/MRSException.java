@@ -8,11 +8,11 @@
  */
 package com.stereodustparticles.console.error;
 
-public class MRSPasswordException extends Exception {
+public class MRSException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 	
-	public MRSPasswordException(String msg) {
+	public MRSException(String msg) {
 		super(msg);
 	}
 

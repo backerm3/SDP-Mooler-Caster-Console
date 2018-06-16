@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import com.stereodustparticles.console.deck.Decks;
 import com.stereodustparticles.console.library.LibraryManager;
+import com.stereodustparticles.console.mrs.MRSIntegration;
 import com.stereodustparticles.console.multi.MultiConsole;
 import com.stereodustparticles.console.playlist.Playlist;
 import com.stereodustparticles.console.pref.Prefs;
@@ -137,6 +138,7 @@ public class SDPConsole2 extends Application {
     	Playlist.init();
     	Soundboard.init();
     	MultiConsole.init();
+    	MRSIntegration.init();
     	
     	// Set window title
     	primaryStage.setTitle("SDP Mooler Caster Console v" + PROG_VERSION);
