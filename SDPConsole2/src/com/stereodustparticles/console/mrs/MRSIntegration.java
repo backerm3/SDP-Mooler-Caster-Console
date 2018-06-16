@@ -54,4 +54,9 @@ public class MRSIntegration {
 	public static void refresh() {
 		reqList.setAll(mrs.getRequests());
 	}
+	
+	// Run the MRI test sequence
+	public static boolean test() {
+		return mrs.test();
+	}
 }

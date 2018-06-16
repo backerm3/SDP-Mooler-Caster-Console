@@ -188,7 +188,27 @@ public class MoolerCasterMenu extends MenuBar {
 			});
 		});
 		
-		reqs.getItems().addAll(viewReqs, openClose);
+		// - Open/Close MRS
+		MenuItem test = new MenuItem("Run MRI Connection Test");
+		test.setOnAction((e) -> {
+			if ( ! MRSIntegration.isConfigured() ) {
+				Microwave.showError("You only had ONE JOB!", "MRS integration is not configured.  You need to enter a valid URL and API key.");
+				return;
+			}
+			
+			Utils.runInBackground(() -> {
+				boolean result = MRSIntegration.test();
+				
+				if ( result ) {
+					Platform.runLater(() -> Microwave.showInfo("You Lucky So-And-So", "Test succeeded - MRS integration should be functioning"));
+				}
+				else {
+					Platform.runLater(() -> Microwave.showError("That Would Be Too Easy!", "The MRI's test sequence failed.  Keep at it, bozo!"));
+				}
+			});
+		});
+		
+		reqs.getItems().addAll(viewReqs, openClose, test);
 		
 		// Options menu
 		Menu options = new Menu("_Options");
