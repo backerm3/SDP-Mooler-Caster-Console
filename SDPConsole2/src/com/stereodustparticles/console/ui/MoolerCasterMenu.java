@@ -188,13 +188,7 @@ public class MoolerCasterMenu extends MenuBar {
 			});
 		});
 		
-		// - Configure MRS...
-		MenuItem configMRS = new MenuItem("Configure MRS...");
-		configMRS.setOnAction((e) -> {
-			MRSSetup.show();
-		});
-		
-		reqs.getItems().addAll(viewReqs, openClose, configMRS);
+		reqs.getItems().addAll(viewReqs, openClose);
 		
 		// Options menu
 		Menu options = new Menu("_Options");
@@ -216,6 +210,12 @@ public class MoolerCasterMenu extends MenuBar {
 		MenuItem plPrefs = new MenuItem("Playlist Options...");
 		plPrefs.setOnAction((e) -> PlaylistSetup.show());
 		
+		// - Configure MRS...
+		MenuItem configMRS = new MenuItem("Configure MRS...");
+		configMRS.setOnAction((e) -> {
+			MRSSetup.show();
+		});
+		
 		// - Misc. Settings...
 		MenuItem miscPrefs = new MenuItem("Misc. Settings...");
 		miscPrefs.setOnAction((e) -> MiscSetup.show());
@@ -231,7 +231,7 @@ public class MoolerCasterMenu extends MenuBar {
 			snp.setSelected(Decks.snpIsEnabled());
 		});
 		
-		options.getItems().addAll(libs, sbSize, deckPrefs, plPrefs, miscPrefs, mcSetup, new SeparatorMenuItem(), snp);
+		options.getItems().addAll(libs, sbSize, deckPrefs, plPrefs, configMRS, miscPrefs, mcSetup, new SeparatorMenuItem(), snp);
 		
 		// Help menu
 		Menu help = new Menu("_Help");
