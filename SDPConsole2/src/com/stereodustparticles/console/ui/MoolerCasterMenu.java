@@ -20,6 +20,7 @@ import com.stereodustparticles.console.ui.setup.MiscSetup;
 import com.stereodustparticles.console.ui.setup.PlaylistSetup;
 import com.stereodustparticles.console.ui.setup.SoundboardSetup;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.CheckMenuItem;
@@ -170,19 +171,21 @@ public class MoolerCasterMenu extends MenuBar {
 				return;
 			}
 			
-			try {
-				boolean newState = MRSIntegration.toggleStatus();
-				
-				if ( newState ) {
-					Microwave.showInfo("WHOOOOOO!", "Request lines are now open.");
+			Utils.runInBackground(() -> {
+				try {
+					boolean newState = MRSIntegration.toggleStatus();
+					
+					if ( newState ) {
+						Platform.runLater(() -> Microwave.showInfo("WHOOOOOO!", "Request lines are now open."));
+					}
+					else {
+						Platform.runLater(() -> Microwave.showInfo("Hold The Line!", "Request lines are now closed."));
+					}
 				}
-				else {
-					Microwave.showInfo("Hold The Line!", "Request lines are now closed.");
+				catch (MRSException e1) {
+					Platform.runLater(() -> Microwave.showError("The MRS Doesn't Like You...", "Opening/closing the MRS failed with the following error:\n\n" + e1.getMessage() + "Microwave components as necessary, then try again."));
 				}
-			}
-			catch (MRSException e1) {
-				Microwave.showError("The MRS Doesn't Like You...", "Opening/closing the MRS failed with the following error:\n\n" + e1.getMessage() + "Microwave components as necessary, then try again.");
-			}
+			});
 		});
 		
 		// - Configure MRS...
