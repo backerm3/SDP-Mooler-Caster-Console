@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="SDPConsole2.jnlp">
+  <information>
+    <title>SDPConsole2</title>
+    <vendor>Stereo Dust Particles</vendor>
+    <description>Mooler Caster Console</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="SDPConsole2.jar" size="223620" download="eager" />
+    <jar href="libs\jSerialComm-1.3.11.jar" size="252175" download="eager" />
+    <jar href="libs\jaudiotagger-2.2.6-SNAPSHOT.jar" size="1131113" download="eager" />
+    <jar href="libs\jflac-codec-1.5.2.jar" size="81828" download="eager" />
+    <jar href="libs\jl1.0.1.jar" size="105363" download="eager" />
+    <jar href="libs\jogg-0.0.7.jar" size="6839" download="eager" />
+    <jar href="libs\jorbis-0.0.17.jar" size="99701" download="eager" />
+    <jar href="libs\mp3spi1.9.5.jar" size="24696" download="eager" />
+    <jar href="libs\tritonus-share-0.3.7-2.jar" size="222315" download="eager" />
+    <jar href="libs\vorbisspi1.0.3.jar" size="13798" download="eager" />
+    <jar href="libs\zzz-jaad-0.8.5.jar" size="575505" download="eager" />
+  </resources>
+  <jfx:javafx-desc  width="0" height="0" main-class="com.stereodustparticles.console.SDPConsole2"  name="Mooler Caster Console" />
+  <update check="background"/>
+</jnlp>
