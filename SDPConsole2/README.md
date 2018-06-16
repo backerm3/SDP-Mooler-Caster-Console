@@ -1,4 +1,4 @@
-The SDP Mooler Caster Console
+# The SDP Mooler Caster Console
 
 The SDP Mooler Caster Console is a simple DJ program designed for running live-streaming music shows.
 It was originally written for the Stereo Dust Particles group of broadcasters, but could be useful for
