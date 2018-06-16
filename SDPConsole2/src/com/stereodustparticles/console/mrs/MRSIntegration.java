@@ -11,9 +11,14 @@ package com.stereodustparticles.console.mrs;
 import com.stereodustparticles.console.error.MRSException;
 import com.stereodustparticles.console.pref.Prefs;
 import com.stereodustparticles.musicrequestsystem.mri.MRSInterface;
+import com.stereodustparticles.musicrequestsystem.mri.Request;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class MRSIntegration {
 	private static MRSInterface mrs = null;
+	private static ObservableList<Request> reqList = FXCollections.observableArrayList();
 	
 	// (Re-)Initialize MRS Integration by creating a new MRSInterface instance if possible
 	public static void init() {
@@ -43,5 +48,10 @@ public class MRSIntegration {
 		}
 		
 		return mrs.systemStatus();
+	}
+	
+	// Refresh the list of requests
+	public static void refresh() {
+		reqList.setAll(mrs.getRequests());
 	}
 }
