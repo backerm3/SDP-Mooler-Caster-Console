@@ -8,9 +8,12 @@
  */
 package com.stereodustparticles.console.ui;
 
+import com.stereodustparticles.console.Utils;
+import com.stereodustparticles.console.error.MRSException;
 import com.stereodustparticles.console.mrs.MRSIntegration;
 import com.stereodustparticles.musicrequestsystem.mri.Request;
 
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -51,10 +54,45 @@ public class MRSRequestView {
 		actionSelector.getChildren().addAll(new Label("With selected:"), action, comment, go);
 		root.getChildren().add(actionSelector);
 		
+		// Go button event handler
+		go.setOnAction((e) -> {
+			Request req = reqList.getSelectionModel().getSelectedItem();
+			if ( req == null ) {
+				Microwave.showError("You only had ONE JOB!", "You have to select a request first, silly!");
+				return;
+			}
+			
+			int option = action.getSelectionModel().getSelectedIndex();
+			
+			Utils.runInBackground(() -> {
+				try {
+					switch (option) {
+						case 0: // Queue
+							MRSIntegration.queue(req, comment.getText());
+							break;
+						case 4: // Mark played
+							MRSIntegration.markPlayed(req);
+							break;
+						case 5: // Decline
+							MRSIntegration.decline(req, comment.getText());
+							break;
+					}
+					
+					Platform.runLater(() -> comment.clear());
+					MRSIntegration.refresh();
+				}
+				catch ( MRSException e1 ) {
+					Platform.runLater(() -> {
+						Microwave.showError("The MRS Doesn't Like You", "The requested operation failed with the following error:\n\n" + e1.getMessage() + "\n\nThrow a GPX clock radio at the offending components, then try again.");
+					});
+				}
+			});
+		});
+		
 		// More Buttons
 		HBox lowerButts = new HBox(10);
 		Button refresh = new Button("Refresh List");
-		refresh.setOnAction((e) -> MRSIntegration.refresh());
+		refresh.setOnAction((e) -> Utils.runInBackground(() -> MRSIntegration.refresh()));
 		lowerButts.getChildren().add(refresh);
 		root.getChildren().add(lowerButts);
 		
@@ -66,7 +104,7 @@ public class MRSRequestView {
 			init();
 		}
 		
-		MRSIntegration.refresh();
+		Utils.runInBackground(() -> MRSIntegration.refresh());
 		stage.show();
 	}
 }

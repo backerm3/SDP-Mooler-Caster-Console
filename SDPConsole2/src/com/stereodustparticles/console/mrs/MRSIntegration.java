@@ -8,11 +8,14 @@
  */
 package com.stereodustparticles.console.mrs;
 
+import java.util.ArrayList;
+
 import com.stereodustparticles.console.error.MRSException;
 import com.stereodustparticles.console.pref.Prefs;
 import com.stereodustparticles.musicrequestsystem.mri.MRSInterface;
 import com.stereodustparticles.musicrequestsystem.mri.Request;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -52,7 +55,8 @@ public class MRSIntegration {
 	
 	// Refresh the list of requests
 	public static void refresh() {
-		reqList.setAll(mrs.getRequests());
+		ArrayList<Request> reqs = mrs.getRequests();
+		Platform.runLater(() -> reqList.setAll(reqs));
 	}
 	
 	// Run the MRI test sequence
@@ -63,5 +67,41 @@ public class MRSIntegration {
 	// Get the observable request list
 	public static ObservableList<Request> getRequestList() {
 		return reqList;
+	}
+	
+	// Queue the specified request
+	public static void queue(Request req, String comment) throws MRSException {
+		int result = mrs.queue(req.getID(), comment);
+		
+		if ( result == 404 ) {
+			throw new MRSException("MRS could not be contacted or responded with a 404");
+		}
+		else if ( result != 200 ) {
+			throw new MRSException("MRS responded with code " + result);
+		}
+	}
+	
+	// Decline the specified request
+	public static void decline(Request req, String comment) throws MRSException {
+		int result = mrs.decline(req.getID(), comment);
+		
+		if ( result == 404 ) {
+			throw new MRSException("MRS could not be contacted or responded with a 404");
+		}
+		else if ( result != 200 ) {
+			throw new MRSException("MRS responded with code " + result);
+		}
+	}
+	
+	// Mark the specified request as played
+	public static void markPlayed(Request req) throws MRSException {
+		int result = mrs.mark(req.getID());
+		
+		if ( result == 404 ) {
+			throw new MRSException("MRS could not be contacted or responded with a 404");
+		}
+		else if ( result != 200 ) {
+			throw new MRSException("MRS responded with code " + result);
+		}
 	}
 }
