@@ -166,6 +166,7 @@ public class MoolerCasterMenu extends MenuBar {
 		openClose.setOnAction((e) -> {
 			if ( ! MRSIntegration.isConfigured() ) {
 				Microwave.showError("You only had ONE JOB!", "MRS integration is not configured.  You need to enter a valid URL and API key.");
+				return;
 			}
 			
 			try {
