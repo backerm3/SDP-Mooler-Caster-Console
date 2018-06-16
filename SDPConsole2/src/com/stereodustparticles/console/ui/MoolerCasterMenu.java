@@ -150,6 +150,25 @@ public class MoolerCasterMenu extends MenuBar {
 		
 		file.getItems().addAll(newBla, openBla, new SeparatorMenuItem(), saveBla, saveBlaAs, new SeparatorMenuItem(), exportPlaylist, restorePlaylist, new SeparatorMenuItem(), exit);
 		
+		// Requests menu
+		Menu reqs = new Menu("_Requests");
+		reqs.setMnemonicParsing(true);
+		
+		// - View Requests
+		MenuItem viewReqs = new MenuItem("View Requests");
+		viewReqs.setAccelerator(new KeyCodeCombination(KeyCode.R, KeyCombination.CONTROL_DOWN));
+		// viewReqs.setOnAction...
+		
+		// - Open/Close MRS
+		MenuItem openClose = new MenuItem("Open/Close MRS");
+		// openClose.setOnAction...
+		
+		// - View Requests
+		MenuItem configMRS = new MenuItem("Configure MRS...");
+		// configMRS.setOnAction...
+		
+		reqs.getItems().addAll(viewReqs, openClose, configMRS);
+		
 		// Options menu
 		Menu options = new Menu("_Options");
 		options.setMnemonicParsing(true);
@@ -219,7 +238,7 @@ public class MoolerCasterMenu extends MenuBar {
 		help.getItems().addAll(memInfo, mcInfo, about);
 		
 		// Add all the finished menus to the bar
-		getMenus().addAll(file, options, help);
+		getMenus().addAll(file, reqs, options, help);
 	}
 	
 	// Display the Save Changes dialog, if necessary
