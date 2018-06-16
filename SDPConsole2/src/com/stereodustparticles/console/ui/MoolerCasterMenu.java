@@ -15,6 +15,7 @@ import com.stereodustparticles.console.soundboard.Soundboard;
 import com.stereodustparticles.console.ui.setup.DeckSetup;
 import com.stereodustparticles.console.ui.setup.LibraryManagerUI;
 import com.stereodustparticles.console.ui.setup.MCSetup;
+import com.stereodustparticles.console.ui.setup.MRSSetup;
 import com.stereodustparticles.console.ui.setup.MiscSetup;
 import com.stereodustparticles.console.ui.setup.PlaylistSetup;
 import com.stereodustparticles.console.ui.setup.SoundboardSetup;
@@ -186,7 +187,9 @@ public class MoolerCasterMenu extends MenuBar {
 		
 		// - Configure MRS...
 		MenuItem configMRS = new MenuItem("Configure MRS...");
-		// configMRS.setOnAction...
+		configMRS.setOnAction((e) -> {
+			MRSSetup.show();
+		});
 		
 		reqs.getItems().addAll(viewReqs, openClose, configMRS);
 		
