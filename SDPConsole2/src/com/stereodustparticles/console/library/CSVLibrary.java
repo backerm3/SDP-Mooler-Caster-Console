@@ -40,16 +40,6 @@ public class CSVLibrary implements Library {
 	// to whatever its value was when it was serialized
 	private int apiLevel = 2;
 	
-	// Old constructor, for compatibility
-	public CSVLibrary(String name, URL csv, int flags) {
-		this.name = name;
-		this.csv = csv;
-		this.flags = flags;
-		this.allowMRS = true;
-		this.allowSnP = true;
-	}
-	
-	// You should really use this one...
 	public CSVLibrary(String name, URL csv, int flags, boolean allowMRS, boolean allowSnP) {
 		this.name = name;
 		this.csv = csv;

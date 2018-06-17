@@ -48,17 +48,6 @@ public class FSLibrary implements Library {
 		
 	}
 	
-	// Old constructor, for compatibility
-	public FSLibrary(String name, File baseDir, int flags) {
-		this.baseDir = baseDir;
-		this.currentDir = baseDir;
-		this.name = name;
-		this.flags = flags;
-		this.allowMRS = true;
-		this.allowSnP = true;
-	}
-	
-	// You should really use this constructor...
 	public FSLibrary(String name, File baseDir, int flags, boolean allowMRS, boolean allowSnP) {
 		this.baseDir = baseDir;
 		this.currentDir = baseDir;
