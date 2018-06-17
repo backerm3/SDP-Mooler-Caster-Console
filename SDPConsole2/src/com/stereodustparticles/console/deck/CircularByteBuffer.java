@@ -604,7 +604,6 @@ public class CircularByteBuffer {
 			// --------
 			// Ordinarily this would be an incomplete solution, but due to the way
 			// the block size lines up with the buffer size, it might just work...
-			// TODO which side should the "=" really be on?
 			if ( ! snpTripped && snpTripPoint != -1 && readPosition <= snpTripPoint && readPosition + len >= snpTripPoint ) {
 				snpTripped = true;
 			}
