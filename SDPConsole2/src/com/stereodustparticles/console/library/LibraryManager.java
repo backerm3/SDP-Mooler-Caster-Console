@@ -1,5 +1,7 @@
 package com.stereodustparticles.console.library;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -48,6 +50,18 @@ public class LibraryManager {
 	
 	public static Set<String> getAvailableLibraries() {
 		return libraryList.keySet();
+	}
+	
+	public static List<Library> getSnPLibraries() {
+		ArrayList<Library> libList = new ArrayList<Library>();
+		
+		for ( Library lib : libraryList.values() ) {
+			if ( lib.includeInSnP() ) {
+				libList.add(lib);
+			}
+		}
+		
+		return libList;
 	}
 	
 	public static Map<String, Library> getLibraryList() {

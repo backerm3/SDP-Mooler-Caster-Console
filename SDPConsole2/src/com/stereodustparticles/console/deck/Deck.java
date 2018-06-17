@@ -8,11 +8,11 @@
  */
 package com.stereodustparticles.console.deck;
 
+import java.util.List;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 import javax.sound.sampled.AudioFormat;
@@ -409,11 +409,10 @@ public class Deck implements Loadable {
 		while ( nextTrack == null ) {
 			// If there is no tentative track to load, pick something randomly
 			// I can see this leading to all kinds of fun, given I'm picking from a random library too!
-			Set<String> libList = LibraryManager.getAvailableLibraries();
+			List<Library> libList = LibraryManager.getSnPLibraries();
 			int chosenLibIndex = ThreadLocalRandom.current().nextInt(0, libList.size());
-			Library chosenLib = LibraryManager.getLibraryForName((String)libList.toArray()[chosenLibIndex]);
 			try {
-				nextTrack = chosenLib.pickRandomTrack();
+				nextTrack = libList.get(chosenLibIndex).pickRandomTrack();
 				if ( Playlist.alreadyPlayed(nextTrack) ) {
 					nextTrack = null;
 					continue;

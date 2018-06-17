@@ -87,6 +87,12 @@ public class MRSListGenerator {
 
 				for ( String libName : LibraryManager.getAvailableLibraries() ) {
 					Library lib = LibraryManager.getLibraryForName(libName);
+					
+					// If library doesn't have inclusion in song lists enabled, skip it
+					if ( ! lib.includeInSongLists() ) {
+						continue;
+					}
+					
 					try {
 						traverseDirectory(lib, bw);
 					}
