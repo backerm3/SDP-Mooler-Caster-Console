@@ -119,6 +119,28 @@ public class LibraryEditor {
 		flagWrap.getChildren().addAll(new Label("Flags:"), flagPane);
 		root.getChildren().add(flagWrap);
 		
+		// Include in MRS/SnP
+		VBox includes = new VBox(10);
+		
+		CheckBox mrs = new CheckBox("Include this library in MRS song lists");
+		if ( lib != null ) {
+			mrs.setSelected(lib.includeInSongLists());
+		}
+		else { // Default to true
+			mrs.setSelected(true);
+		}
+		
+		CheckBox snp = new CheckBox("Include this library in Stream 'n' Poop™ auto-cue");
+		if ( lib != null ) {
+			snp.setSelected(lib.includeInSnP());
+		}
+		else { // Default to true
+			snp.setSelected(true);
+		}
+		
+		includes.getChildren().addAll(mrs, snp);
+		root.getChildren().add(includes);
+		
 		// OK/Cancel
 		HBox okCancel = new HBox(8);
 		okCancel.setAlignment(Pos.CENTER);
@@ -184,7 +206,7 @@ public class LibraryEditor {
 				}
 				
 				stage.close();
-				LibraryManager.putLibrary(name.getText(), oldName, new FSLibrary(name.getText(), loc, flags));
+				LibraryManager.putLibrary(name.getText(), oldName, new FSLibrary(name.getText(), loc, flags, mrs.isSelected(), snp.isSelected()));
 				LibraryManagerUI.refreshList();
 				EventBus.fireEvent(new Event(EventType.LIBRARY_LIST_UPDATED));
 			}
@@ -199,7 +221,7 @@ public class LibraryEditor {
 				}
 				
 				stage.close();
-				LibraryManager.putLibrary(name.getText(), oldName, new CSVLibrary(name.getText(), loc, flags));
+				LibraryManager.putLibrary(name.getText(), oldName, new CSVLibrary(name.getText(), loc, flags, mrs.isSelected(), snp.isSelected()));
 				LibraryManagerUI.refreshList();
 			}
 			else {
