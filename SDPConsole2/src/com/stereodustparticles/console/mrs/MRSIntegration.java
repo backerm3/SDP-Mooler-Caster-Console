@@ -56,7 +56,19 @@ public class MRSIntegration {
 	// Refresh the list of requests
 	public static void refresh() {
 		ArrayList<Request> reqs = mrs.getRequests();
-		Platform.runLater(() -> reqList.setAll(reqs));
+		Platform.runLater(() -> {
+			reqList.clear();
+			
+			// Add only unseen and queued requests to the ObservableList
+			// Loop across the request list in reverse, so as to put most recent requests on top
+			for ( int i = reqs.size() - 1; i >= 0; i-- ) {
+				Request r = reqs.get(i);
+				
+				if ( r.getStatus() <= 1 ) {
+					reqList.add(r);
+				}
+			}
+		});
 	}
 	
 	// Run the MRI test sequence
