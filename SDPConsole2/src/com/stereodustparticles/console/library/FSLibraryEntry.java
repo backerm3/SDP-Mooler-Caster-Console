@@ -36,6 +36,7 @@ public class FSLibraryEntry implements LibraryEntry {
 	private String title = null;
 	private String artist = null;
 	private int duration = -1;
+	private boolean loadable = true;
 	
 	public FSLibraryEntry(File location, String libName) {
 		this.location = location;
@@ -91,6 +92,7 @@ public class FSLibraryEntry implements LibraryEntry {
 			// Set metadata to values that indicate an unrecognized file
 			this.title = location.getName();
 			this.artist = "(Unrecognized File!)";
+			loadable = false;
 			
 			return;
 		}
@@ -264,7 +266,7 @@ public class FSLibraryEntry implements LibraryEntry {
 			year = Utils.sanitizeForMRS(year);
 			
 			// Build hidden metadata string
-			String meta = "MCC:" + libName + ":" + LibraryManager.getLibraryForName(libName).getPathInLibrary(this);
+			String meta = "MCC:" + libName + ":" + LibraryManager.getLibraryForName(libName).getPathInLibrary(this).replace('\\', '/');
 			
 			// Output the final string
 			return artist + "|" + title + "|" + album + "|" + year + "|" + meta;
@@ -276,8 +278,7 @@ public class FSLibraryEntry implements LibraryEntry {
 
 	@Override
 	public boolean isLoadable() {
-		// TODO return false for non-audio files
-		return true;
+		return loadable;
 	}
 
 }

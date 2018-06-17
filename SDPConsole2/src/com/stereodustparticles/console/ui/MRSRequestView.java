@@ -93,7 +93,7 @@ public class MRSRequestView {
 									return;
 								}
 								
-								DeckLoadRequest dlr = new DeckLoadRequest(reqTrack.getTitle(), reqTrack.getArtist(), reqTrack.getDuration(), reqTrack.getLibraryName(), LibraryManager.getLibraryForName(reqTrack.getLibraryName()).getPathInLibrary(reqTrack), 1);
+								DeckLoadRequest dlr = new DeckLoadRequest(reqTrack.getTitle(), reqTrack.getArtist(), reqTrack.getDuration(), reqTrack.getLibraryName(), LibraryManager.getLibraryForName(reqTrack.getLibraryName()).getPathInLibrary(reqTrack), option);
 								EventBus.fireEvent(new Event(EventType.DECK_REQUEST_LOAD, dlr));
 								
 								if ( Prefs.loadBoolean(Prefs.AUTO_ADD_TENTATIVE) && ! Decks.snpIsEnabled() ) {
