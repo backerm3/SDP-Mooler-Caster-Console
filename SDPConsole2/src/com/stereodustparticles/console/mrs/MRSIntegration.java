@@ -55,6 +55,9 @@ public class MRSIntegration {
 	
 	// Refresh the list of requests
 	public static void refresh() {
+		refresh(false);
+	}
+	public static void refresh(boolean showPrev) {
 		ArrayList<Request> reqs = mrs.getRequests();
 		Platform.runLater(() -> {
 			reqList.clear();
@@ -64,7 +67,7 @@ public class MRSIntegration {
 			for ( int i = reqs.size() - 1; i >= 0; i-- ) {
 				Request r = reqs.get(i);
 				
-				if ( r.getStatus() <= 1 ) {
+				if ( showPrev || r.getStatus() <= 1 ) {
 					reqList.add(r);
 				}
 			}

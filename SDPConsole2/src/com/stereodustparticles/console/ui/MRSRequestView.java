@@ -28,6 +28,7 @@ import javafx.stage.Stage;
 
 public class MRSRequestView {
 	private static Stage stage = null;
+	private static boolean showPrev = false;
 	
 	private static void init() {
 		stage = new Stage();
@@ -92,8 +93,21 @@ public class MRSRequestView {
 		// More Buttons
 		HBox lowerButts = new HBox(10);
 		Button refresh = new Button("Refresh List");
-		refresh.setOnAction((e) -> Utils.runInBackground(() -> MRSIntegration.refresh()));
-		lowerButts.getChildren().add(refresh);
+		refresh.setOnAction((e) -> Utils.runInBackground(() -> MRSIntegration.refresh(showPrev)));
+		Button toggleShowPrev = new Button("Show Previous Requests");
+		toggleShowPrev.setOnAction((e) -> {
+			showPrev = ! showPrev;
+			
+			if ( showPrev ) {
+				toggleShowPrev.setText("Hide Previous Requests");
+			}
+			else {
+				toggleShowPrev.setText("Show Previous Requests");
+			}
+			
+			Utils.runInBackground(() -> MRSIntegration.refresh(showPrev));
+		});
+		lowerButts.getChildren().addAll(refresh, toggleShowPrev);
 		root.getChildren().add(lowerButts);
 		
 		stage.setScene(new Scene(root));
