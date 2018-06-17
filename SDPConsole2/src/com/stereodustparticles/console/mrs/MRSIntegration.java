@@ -11,6 +11,8 @@ package com.stereodustparticles.console.mrs;
 import java.util.ArrayList;
 
 import com.stereodustparticles.console.error.MRSException;
+import com.stereodustparticles.console.library.LibraryEntry;
+import com.stereodustparticles.console.library.LibraryManager;
 import com.stereodustparticles.console.pref.Prefs;
 import com.stereodustparticles.musicrequestsystem.mri.MRSInterface;
 import com.stereodustparticles.musicrequestsystem.mri.Request;
@@ -139,5 +141,20 @@ public class MRSIntegration {
 			default:
 				return "Indeterminate";
 		}
+	}
+	
+	// Recover the LibraryEntry buried inside a Request object
+	// Returns null if none found
+	public static LibraryEntry getRequestedTrack(Request req) {
+		String fn = req.getFilename();
+		if ( ! fn.isEmpty() ) {
+			String[] parts = fn.split(":", 3); // Limit to 3 elements, so colons in the location don't get picked up
+			if ( parts[0].equals("MCC") ) {
+				return LibraryManager.getLibraryForName(parts[1]).getEntryFromLocation(parts[2]);
+			}
+		}
+		
+		// If we reach this point, no entry could be recovered.  Return null.
+		return null;
 	}
 }

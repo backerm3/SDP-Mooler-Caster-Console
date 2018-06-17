@@ -9,8 +9,17 @@
 package com.stereodustparticles.console.ui;
 
 import com.stereodustparticles.console.Utils;
+import com.stereodustparticles.console.deck.DeckLoadRequest;
+import com.stereodustparticles.console.deck.Decks;
 import com.stereodustparticles.console.error.MRSException;
+import com.stereodustparticles.console.event.Event;
+import com.stereodustparticles.console.event.EventBus;
+import com.stereodustparticles.console.event.EventType;
+import com.stereodustparticles.console.library.LibraryEntry;
+import com.stereodustparticles.console.library.LibraryManager;
 import com.stereodustparticles.console.mrs.MRSIntegration;
+import com.stereodustparticles.console.playlist.PlaylistEntry;
+import com.stereodustparticles.console.pref.Prefs;
 import com.stereodustparticles.musicrequestsystem.mri.Request;
 
 import javafx.application.Platform;
@@ -52,6 +61,7 @@ public class MRSRequestView {
 		actionSelector.setAlignment(Pos.CENTER_LEFT);
 		ChoiceBox<String> action = new ChoiceBox<String>();
 		action.getItems().addAll("Queue", "Queue & Load to Deck 1", "Queue & Load to Deck 2", "Queue & Add Tentative", "Mark Played", "Decline");
+		action.getSelectionModel().select(0);
 		TextField comment = new TextField();
 		comment.setPromptText("Comment");
 		Button go = new Button("Go");
@@ -73,6 +83,32 @@ public class MRSRequestView {
 					switch (option) {
 						case 0: // Queue
 							MRSIntegration.queue(req, comment.getText());
+							break;
+						case 1: // Queue and load to deck
+						case 2: // LAME HACK ALERT!  Note that the option index just so happens to equal the target deck number...
+							LibraryEntry reqTrack = MRSIntegration.getRequestedTrack(req);
+							if ( reqTrack != null ) {
+								if ( (option == 1 && Decks.deck1IsPlaying()) || (option == 2 && Decks.deck2IsPlaying()) ) {
+									Platform.runLater(() -> Microwave.showWarning("You only had ONE JOB!", "You didn't really want to load over a playing track, did you?"));
+									return;
+								}
+								
+								DeckLoadRequest dlr = new DeckLoadRequest(reqTrack.getTitle(), reqTrack.getArtist(), reqTrack.getDuration(), reqTrack.getLibraryName(), LibraryManager.getLibraryForName(reqTrack.getLibraryName()).getPathInLibrary(reqTrack), 1);
+								EventBus.fireEvent(new Event(EventType.DECK_REQUEST_LOAD, dlr));
+								
+								if ( Prefs.loadBoolean(Prefs.AUTO_ADD_TENTATIVE) && ! Decks.snpIsEnabled() ) {
+									EventBus.fireEvent(new Event(EventType.PLAYLIST_ADD, new PlaylistEntry(reqTrack, true, LibraryManager.getLibraryForName(reqTrack.getLibraryName()).getDefaultFlags())));
+								}
+							}
+							else {
+								Platform.runLater(() -> Microwave.showWarning("Auto-Load Not Available", "No file information was found in the request.  You'll need to load the track manually."));
+							}
+							
+							// Don't queue the track again if it's already queued and no (new) comment is entered
+							// This prevents the response comment from being overwritten on the MRS
+							if ( req.getStatus() != 1 || ! comment.getText().isEmpty() ) {
+								MRSIntegration.queue(req, comment.getText());
+							}
 							break;
 						case 4: // Mark played
 							MRSIntegration.markPlayed(req);
