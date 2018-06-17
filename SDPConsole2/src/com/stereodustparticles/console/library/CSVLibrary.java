@@ -184,9 +184,9 @@ public class CSVLibrary implements Library {
 	
 	@Override
 	public boolean includeInSongLists() {
-		// Old instances default to true
+		// Old instances default to true, except for SDP Other Media
 		if ( apiLevel < 2 ) {
-			return true;
+			return (! name.equals("SDP Other Media"));
 		}
 		
 		return allowMRS;
@@ -194,9 +194,9 @@ public class CSVLibrary implements Library {
 
 	@Override
 	public boolean includeInSnP() {
-		// Old instances default to true
+		// Old instances default to true, except for SDP Other Media
 		if ( apiLevel < 2 ) {
-			return true;
+			return (! name.equals("SDP Other Media"));
 		}
 		
 		return allowSnP;
