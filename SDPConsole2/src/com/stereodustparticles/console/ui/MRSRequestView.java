@@ -110,6 +110,21 @@ public class MRSRequestView {
 								MRSIntegration.queue(req, comment.getText());
 							}
 							break;
+						case 3: // Queue and add tentative
+							LibraryEntry reqTrak = MRSIntegration.getRequestedTrack(req);
+							if ( reqTrak != null ) {
+								EventBus.fireEvent(new Event(EventType.PLAYLIST_ADD, new PlaylistEntry(reqTrak, true, LibraryManager.getLibraryForName(reqTrak.getLibraryName()).getDefaultFlags())));
+							}
+							else {
+								Platform.runLater(() -> Microwave.showWarning("Auto-Load Not Available", "No file information was found in the request.  You'll need to add the track to the playlist manually."));
+							}
+							
+							// Don't queue the track again if it's already queued and no (new) comment is entered
+							// This prevents the response comment from being overwritten on the MRS
+							if ( req.getStatus() != 1 || ! comment.getText().isEmpty() ) {
+								MRSIntegration.queue(req, comment.getText());
+							}
+							break;
 						case 4: // Mark played
 							MRSIntegration.markPlayed(req);
 							break;
