@@ -56,9 +56,6 @@ public class MRSIntegration {
 	}
 	
 	// Refresh the list of requests
-	public static void refresh() {
-		refresh(false);
-	}
 	public static void refresh(boolean showPrev) {
 		ArrayList<Request> reqs = mrs.getRequests();
 		Platform.runLater(() -> {

@@ -136,7 +136,7 @@ public class MRSRequestView {
 					}
 					
 					Platform.runLater(() -> comment.clear());
-					MRSIntegration.refresh();
+					MRSIntegration.refresh(showPrev);
 				}
 				catch ( MRSException e1 ) {
 					Platform.runLater(() -> {
