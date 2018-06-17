@@ -19,6 +19,7 @@ import com.stereodustparticles.console.library.LibraryEntry;
 import com.stereodustparticles.console.library.LibraryManager;
 import com.stereodustparticles.console.mrs.MRSIntegration;
 import com.stereodustparticles.console.playlist.PlaylistEntry;
+import com.stereodustparticles.console.playlist.PlaylistFlags;
 import com.stereodustparticles.console.pref.Prefs;
 import com.stereodustparticles.musicrequestsystem.mri.Request;
 
@@ -96,8 +97,9 @@ public class MRSRequestView {
 								DeckLoadRequest dlr = new DeckLoadRequest(reqTrack.getTitle(), reqTrack.getArtist(), reqTrack.getDuration(), reqTrack.getLibraryName(), LibraryManager.getLibraryForName(reqTrack.getLibraryName()).getPathInLibrary(reqTrack), option);
 								EventBus.fireEvent(new Event(EventType.DECK_REQUEST_LOAD, dlr));
 								
+								// TODO allow users to disable automatic use of REQUEST flag?
 								if ( Prefs.loadBoolean(Prefs.AUTO_ADD_TENTATIVE) && ! Decks.snpIsEnabled() ) {
-									EventBus.fireEvent(new Event(EventType.PLAYLIST_ADD, new PlaylistEntry(reqTrack, true, LibraryManager.getLibraryForName(reqTrack.getLibraryName()).getDefaultFlags())));
+									EventBus.fireEvent(new Event(EventType.PLAYLIST_ADD, new PlaylistEntry(reqTrack, true, PlaylistFlags.REQUEST | LibraryManager.getLibraryForName(reqTrack.getLibraryName()).getDefaultFlags())));
 								}
 							}
 							else {
@@ -113,7 +115,7 @@ public class MRSRequestView {
 						case 3: // Queue and add tentative
 							LibraryEntry reqTrak = MRSIntegration.getRequestedTrack(req);
 							if ( reqTrak != null ) {
-								EventBus.fireEvent(new Event(EventType.PLAYLIST_ADD, new PlaylistEntry(reqTrak, true, LibraryManager.getLibraryForName(reqTrak.getLibraryName()).getDefaultFlags())));
+								EventBus.fireEvent(new Event(EventType.PLAYLIST_ADD, new PlaylistEntry(reqTrak, true, PlaylistFlags.REQUEST | LibraryManager.getLibraryForName(reqTrak.getLibraryName()).getDefaultFlags())));
 							}
 							else {
 								Platform.runLater(() -> Microwave.showWarning("Auto-Load Not Available", "No file information was found in the request.  You'll need to add the track to the playlist manually."));
