@@ -21,6 +21,8 @@ public interface Library extends Serializable {
 	// Not all libraries will necessarily support these functions.  Those that don't should immediately return false for these.
 	public String getName(); // Return this library's name
 	public int getDefaultFlags(); // Return this library's default playlist flags
+	public boolean includeInSongLists(); // Return whether this library may be included in MRS song lists
+	public boolean includeInSnP(); // Return whether this library may be included in Stream 'n' Poop(TM) (when auto-selecting tracks)
 	public boolean changeDir(String dir); // Change directories
 	public boolean upOneLevel(); // Go up to the parent directory
 	public boolean canGoUp(); // Return whether or not we can go up a level

@@ -20,6 +20,8 @@ public class FSLibrary implements Library {
 	private File currentDir;
 	private String name;
 	private int flags;
+	private boolean allowMRS;
+	private boolean allowSnP;
 	
 	// Subclass that defines the comparison rules used to sort a directory listing
 	private class FSLibraryComparator implements Comparator<File> {
@@ -41,11 +43,24 @@ public class FSLibrary implements Library {
 		
 	}
 	
+	// Old constructor, for compatibility
 	public FSLibrary(String name, File baseDir, int flags) {
 		this.baseDir = baseDir;
 		this.currentDir = baseDir;
 		this.name = name;
 		this.flags = flags;
+		this.allowMRS = true;
+		this.allowSnP = true;
+	}
+	
+	// You should really use this constructor...
+	public FSLibrary(String name, File baseDir, int flags, boolean allowMRS, boolean allowSnP) {
+		this.baseDir = baseDir;
+		this.currentDir = baseDir;
+		this.name = name;
+		this.flags = flags;
+		this.allowMRS = allowMRS;
+		this.allowSnP = allowSnP;
 	}
 	
 	@Override
@@ -188,6 +203,16 @@ public class FSLibrary implements Library {
 	@Override
 	public int getDefaultFlags() {
 		return flags;
+	}
+
+	@Override
+	public boolean includeInSongLists() {
+		return allowMRS;
+	}
+
+	@Override
+	public boolean includeInSnP() {
+		return allowSnP;
 	}
 
 }

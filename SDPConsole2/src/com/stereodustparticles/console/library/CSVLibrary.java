@@ -32,11 +32,25 @@ public class CSVLibrary implements Library {
 	private String name;
 	private int flags;
 	private List<LibraryEntry> list = null;
+	private boolean allowMRS;
+	private boolean allowSnP;
 	
+	// Old constructor, for compatibility
 	public CSVLibrary(String name, URL csv, int flags) {
 		this.name = name;
 		this.csv = csv;
 		this.flags = flags;
+		this.allowMRS = true;
+		this.allowSnP = true;
+	}
+	
+	// You should really use this one...
+	public CSVLibrary(String name, URL csv, int flags, boolean allowMRS, boolean allowSnP) {
+		this.name = name;
+		this.csv = csv;
+		this.flags = flags;
+		this.allowMRS = allowMRS;
+		this.allowSnP = allowSnP;
 	}
 	
 	@Override
@@ -171,6 +185,16 @@ public class CSVLibrary implements Library {
 	@Override
 	public int getDefaultFlags() {
 		return flags;
+	}
+	
+	@Override
+	public boolean includeInSongLists() {
+		return allowMRS;
+	}
+
+	@Override
+	public boolean includeInSnP() {
+		return allowSnP;
 	}
 
 }
