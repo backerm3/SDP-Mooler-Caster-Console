@@ -2,6 +2,7 @@ package com.stereodustparticles.console;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 
 import com.stereodustparticles.console.deck.Decks;
 import com.stereodustparticles.console.library.LibraryManager;
@@ -34,6 +35,9 @@ import javafx.stage.WindowEvent;
 public class SDPConsole2 extends Application {
 	// Global Constants
 	public static final String PROG_VERSION = "2.00"; // Program version constant
+	
+	// Global random number generator
+	public static Random random = new Random();
 	
 	// Close request handler
 	private EventHandler<WindowEvent> checkBoardAndCleanUp = event -> {

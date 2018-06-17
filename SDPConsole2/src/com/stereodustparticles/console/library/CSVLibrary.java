@@ -8,7 +8,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 import com.stereodustparticles.console.SDPConsole2;
 import com.stereodustparticles.console.error.CSVParseException;
@@ -173,7 +172,7 @@ public class CSVLibrary implements Library {
 	@Override
 	public LibraryEntry pickRandomTrack() throws Exception {
 		List<LibraryEntry> list = getList();
-		int chosenIndex = ThreadLocalRandom.current().nextInt(0, list.size() - 1);
+		int chosenIndex = SDPConsole2.random.nextInt(list.size());
 		return list.get(chosenIndex);
 	}
 

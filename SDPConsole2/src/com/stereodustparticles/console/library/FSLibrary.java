@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
+import com.stereodustparticles.console.SDPConsole2;
 import com.stereodustparticles.console.Utils;
 
 public class FSLibrary implements Library {
@@ -170,7 +170,7 @@ public class FSLibrary implements Library {
 		
 		while ( ret == null ) {
 			List<LibraryEntry> list = getList();
-			int chosenIndex = ThreadLocalRandom.current().nextInt(0, list.size() - 1);
+			int chosenIndex = SDPConsole2.random.nextInt(list.size());
 			FSLibraryEntry chosen = (FSLibraryEntry)list.get(chosenIndex);
 			if ( chosen.isDir() ) {
 				currentDir = chosen.getLocationAsFile();

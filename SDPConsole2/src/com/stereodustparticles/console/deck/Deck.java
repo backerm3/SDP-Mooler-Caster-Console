@@ -13,7 +13,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.concurrent.ThreadLocalRandom;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -31,6 +30,7 @@ import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
 import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
 import org.jaudiotagger.tag.TagException;
 
+import com.stereodustparticles.console.SDPConsole2;
 import com.stereodustparticles.console.Utils;
 import com.stereodustparticles.console.ables.Loadable;
 import com.stereodustparticles.console.cache.CachedAudio;
@@ -412,7 +412,7 @@ public class Deck implements Loadable {
 			// If there is no tentative track to load, pick something randomly
 			// I can see this leading to all kinds of fun, given I'm picking from a random library too!
 			List<Library> libList = LibraryManager.getSnPLibraries();
-			int chosenLibIndex = ThreadLocalRandom.current().nextInt(0, libList.size());
+			int chosenLibIndex = SDPConsole2.random.nextInt(libList.size());
 			try {
 				nextTrack = libList.get(chosenLibIndex).pickRandomTrack();
 				if ( Playlist.alreadyPlayed(nextTrack) ) {
