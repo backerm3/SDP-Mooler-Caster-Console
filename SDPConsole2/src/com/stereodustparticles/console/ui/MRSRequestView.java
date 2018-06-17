@@ -23,6 +23,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -41,7 +42,9 @@ public class MRSRequestView {
 		
 		// Request list
 		ListView<Request> reqList = new ListView<Request>();
+		reqList.setCellFactory(rv -> new RequestListCell());
 		reqList.setItems(MRSIntegration.getRequestList());
+		VBox.setVgrow(reqList, Priority.ALWAYS);
 		root.getChildren().add(reqList);
 		
 		// Action Selector
@@ -113,12 +116,17 @@ public class MRSRequestView {
 		stage.setScene(new Scene(root));
 	}
 	
+	// Return the stage, so the request cell's info message appears right
+	static Stage getStage() {
+		return stage;
+	}
+	
 	public static void show() {
 		if ( stage == null ) {
 			init();
 		}
 		
-		Utils.runInBackground(() -> MRSIntegration.refresh());
+		Utils.runInBackground(() -> MRSIntegration.refresh(showPrev));
 		stage.show();
 	}
 }

@@ -119,4 +119,25 @@ public class MRSIntegration {
 			throw new MRSException("MRS responded with code " + result);
 		}
 	}
+	
+	// Get textual representation of request status
+	// Shamelessly adapted from the MRI code
+	public static String getTextualStatus(Request req) {
+		switch(req.getStatus()) {
+			case 0:
+				return "Unseen";
+				
+			case 1:
+				return "In queue";
+				
+			case 2:
+				return "Declined";
+				
+			case 3:
+				return "Played";
+				
+			default:
+				return "Indeterminate";
+		}
+	}
 }
