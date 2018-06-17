@@ -35,7 +35,7 @@ public class MRSRequestView {
 		stage.setTitle("Requests");
 		
 		// Root
-		VBox root = new VBox(40);
+		VBox root = new VBox(27);
 		root.setAlignment(Pos.CENTER_LEFT);
 		root.setPadding(new Insets(10, 15, 10, 15));
 		
