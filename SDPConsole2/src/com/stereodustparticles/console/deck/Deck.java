@@ -64,6 +64,7 @@ public class Deck implements Loadable {
 	private boolean closing = false;
 	private boolean ready = false;
 	private boolean snpWaiting = false;
+	private int requestID = 0;
 	
 	// TODO make number seconds of buffer adjustable?
 	private static final int BUFFER_SIZE_SEC = 5;
@@ -125,6 +126,7 @@ public class Deck implements Loadable {
 						
 						artist = req.getArtist();
 						title = req.getTitle();
+						requestID = req.getRequestID();
 					});
 				}
 			}
@@ -321,7 +323,7 @@ public class Deck implements Loadable {
 				
 				// Mark track played in Playlist Manager
 				if ( title != null ) {
-					EventBus.fireEvent(new Event(EventType.PLAYLIST_MARK_PLAYED, new PlaylistEntry(artist, title, false, 0)));
+					EventBus.fireEvent(new Event(EventType.PLAYLIST_MARK_PLAYED, new PlaylistEntry(artist, title, false, 0, requestID)));
 				}
 			}
 			else {

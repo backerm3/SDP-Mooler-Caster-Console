@@ -122,6 +122,18 @@ public class MRSIntegration {
 		}
 	}
 	
+	// Mark the specified ID as played (pass through to MRI)
+	public static void markIDPlayed(int id) throws MRSException {
+		int result = mrs.mark(id);
+		
+		if ( result == 404 ) {
+			throw new MRSException("MRS could not be contacted or responded with a 404");
+		}
+		else if ( result != 200 ) {
+			throw new MRSException("MRS responded with code " + result);
+		}
+	}
+	
 	// Get textual representation of request status
 	// Shamelessly adapted from the MRI code
 	public static String getTextualStatus(Request req) {

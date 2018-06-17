@@ -22,10 +22,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import com.stereodustparticles.console.Utils;
+import com.stereodustparticles.console.error.MRSException;
 import com.stereodustparticles.console.event.Event;
 import com.stereodustparticles.console.event.EventBus;
 import com.stereodustparticles.console.event.EventType;
 import com.stereodustparticles.console.library.LibraryEntry;
+import com.stereodustparticles.console.mrs.MRSIntegration;
 import com.stereodustparticles.console.multi.MultiConsole;
 import com.stereodustparticles.console.pref.Prefs;
 import com.stereodustparticles.console.ui.Microwave;
@@ -109,6 +111,25 @@ public class Playlist {
 				if ( entry == null ) return;
 				
 				PlaylistEntry found = findInList(entry, true);
+				
+				// If either the specified entry or the found entry has a request ID tied to it,
+				// break off another thread to mark that request played in the MRS
+				int foundID = entry.getRequestID();
+				if ( foundID == 0 && found != null ) {
+					foundID = found.getRequestID();
+				}
+				if ( foundID > 0 ) {
+					final int id = foundID; // To make Java shut up
+					
+					Utils.runInBackground(() -> {
+						try {
+							MRSIntegration.markIDPlayed(id);
+						}
+						catch (MRSException e1) {
+							Platform.runLater(() -> Microwave.showError("The MRS Doesn't Like You", "Marking the request played failed with the following error:\n\n" + e1.getMessage() + "\n\nSend your MRS on a trip to the pool, then try again."));
+						}
+					});
+				}
 				
 				// If the specified entry is in the list, set its tentative flag to false
 				// If it's not in the list, add it (after setting its tentative flag to false)

@@ -34,8 +34,8 @@ public class PlaylistEntry implements CSVable, Serializable {
 	private LibraryEntry location;
 	private transient BooleanProperty isTentative = new SimpleBooleanProperty();
 	private transient IntegerProperty flags = new SimpleIntegerProperty();
+	private transient int requestID = 0;
 	boolean autoLoaded = false;
-	// TODO do we need library name too?
 	
 	public PlaylistEntry(LibraryEntry location, boolean isTentative, int flags) {
 		this.artist.setValue(location.getArtist());
@@ -45,12 +45,22 @@ public class PlaylistEntry implements CSVable, Serializable {
 		this.flags.setValue(flags);
 	}
 	
+	public PlaylistEntry(LibraryEntry location, boolean isTentative, int flags, int requestID) {
+		this(location, isTentative, flags);
+		this.requestID = requestID;
+	}
+	
 	public PlaylistEntry(String artist, String title, boolean isTentative, int flags) {
 		this.artist.setValue(artist);
 		this.title.setValue(title);
 		this.location = null;
 		this.isTentative.setValue(isTentative);
 		this.flags.setValue(flags);
+	}
+	
+	public PlaylistEntry(String artist, String title, boolean isTentative, int flags, int requestID) {
+		this(artist, title, isTentative, flags);
+		this.requestID = requestID;
 	}
 	
 	public PlaylistEntry() {
@@ -115,6 +125,10 @@ public class PlaylistEntry implements CSVable, Serializable {
 	
 	public void setFlags(int flags) {
 		this.flags.setValue(flags);
+	}
+	
+	public int getRequestID() {
+		return requestID;
 	}
 	
 	@Override

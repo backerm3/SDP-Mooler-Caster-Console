@@ -20,6 +20,7 @@ public class DeckLoadRequest implements Serializable {
 	private String library;
 	private String location;
 	private int deckNum;
+	private int requestID = 0;
 	
 	public DeckLoadRequest(String title, String artist, int duration, String library, String location, int deckNum) {
 		this.title = title;
@@ -28,6 +29,11 @@ public class DeckLoadRequest implements Serializable {
 		this.library = library;
 		this.location = location;
 		this.deckNum = deckNum;
+	}
+	
+	public DeckLoadRequest(String title, String artist, int duration, String library, String location, int deckNum, int requestID) {
+		this(title, artist, duration, library, location, deckNum);
+		this.requestID = requestID;
 	}
 	
 	public String getTitle() {
@@ -52,5 +58,9 @@ public class DeckLoadRequest implements Serializable {
 	
 	public int getDeckNum() {
 		return deckNum;
+	}
+	
+	public int getRequestID() {
+		return requestID;
 	}
 }
