@@ -115,10 +115,10 @@ public class Microwave {
 	}
 	
 	// Show an exception
-	public static void showException(String title, String msg, Exception ex) {
+	public static void showException(String title, String msg, Throwable ex) {
 		showException(title, msg, ex, null);
 	}
-	public static void showException(String title, String msg, Exception ex, Window owner) {
+	public static void showException(String title, String msg, Throwable ex, Window owner) {
 		Alert alert = new Alert(AlertType.ERROR);
 		alert.setTitle(title);
 		alert.setHeaderText(null);

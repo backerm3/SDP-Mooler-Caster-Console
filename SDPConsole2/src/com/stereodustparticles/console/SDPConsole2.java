@@ -14,6 +14,7 @@ import com.stereodustparticles.console.ui.Microwave;
 import com.stereodustparticles.console.ui.MoolerCasterView;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.stage.FileChooser;
 import javafx.stage.Screen;
@@ -47,6 +48,21 @@ public class SDPConsole2 extends Application {
         Decks.cleanUp();
     };
     
+    // Global uncaught exception handler
+    // http://www.nomachetejuggling.com/2006/06/13/java-5-global-exception-handling/
+    class GremlinHandler implements Thread.UncaughtExceptionHandler {
+    	
+		  public void uncaughtException(Thread t, Throwable e) {
+			  	// Print to stderr first, in case JavaFX is hosed
+			    System.err.println("IfYouLikeGoodIdeas must be immediately clubbed for not catching the following exception:");
+			    e.printStackTrace();
+			  
+			  	Platform.runLater(() -> {
+			    	Microwave.showException("Code Gremlins Detected!", "A miscellaneous error has occurred.  This is most likely because IfYouLikeGoodIdeas has done something dumb, or didn't foresee anyone doing what you just did.\n\nCopy the details below, and pass them on to IfYouLikeGoodIdeas when you send him to the white courtesy club.", e);
+			    });
+		  }
+	}
+    
     // TODO Fix this so we don't have to have this code in 2 places!
     
     // Display the Save Changes dialog, if necessary
@@ -77,7 +93,7 @@ public class SDPConsole2 extends Application {
  		}
  	}
  	
- // Save the current board layout as
+ 	// Save the current board layout as
  	// Return false if cancelled, true otherwise
  	private boolean saveBoardAs() {
  		FileChooser chooser = new FileChooser();
@@ -127,6 +143,8 @@ public class SDPConsole2 extends Application {
     // The *real* startup method
     @Override
     public void start(Stage primaryStage) {
+    	// Set global overrides
+    	Thread.setDefaultUncaughtExceptionHandler(new GremlinHandler());
     	primaryStage.setOnCloseRequest(checkBoardAndCleanUp);
     	
     	// First, let's take care of some backend initialization
