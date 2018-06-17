@@ -35,6 +35,11 @@ public class CSVLibrary implements Library {
 	private boolean allowMRS;
 	private boolean allowSnP;
 	
+	// Lame hack to allow updating parameters in old serialized instances
+	// Despite this assignment here, a deserialized object will have this set
+	// to whatever its value was when it was serialized
+	private int apiLevel = 2;
+	
 	// Old constructor, for compatibility
 	public CSVLibrary(String name, URL csv, int flags) {
 		this.name = name;
@@ -189,11 +194,21 @@ public class CSVLibrary implements Library {
 	
 	@Override
 	public boolean includeInSongLists() {
+		// Old instances default to true
+		if ( apiLevel < 2 ) {
+			return true;
+		}
+		
 		return allowMRS;
 	}
 
 	@Override
 	public boolean includeInSnP() {
+		// Old instances default to true
+		if ( apiLevel < 2 ) {
+			return true;
+		}
+		
 		return allowSnP;
 	}
 

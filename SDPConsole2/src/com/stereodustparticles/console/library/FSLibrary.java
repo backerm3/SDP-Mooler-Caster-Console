@@ -23,6 +23,11 @@ public class FSLibrary implements Library {
 	private boolean allowMRS;
 	private boolean allowSnP;
 	
+	// Lame hack to allow updating parameters in old serialized instances
+	// Despite this assignment here, a deserialized object will have this set
+	// to whatever its value was when it was serialized
+	private int apiLevel = 2;
+	
 	// Subclass that defines the comparison rules used to sort a directory listing
 	private class FSLibraryComparator implements Comparator<File> {
 
@@ -207,11 +212,21 @@ public class FSLibrary implements Library {
 
 	@Override
 	public boolean includeInSongLists() {
+		// Old instances default to true
+		if ( apiLevel < 2 ) {
+			return true;
+		}
+		
 		return allowMRS;
 	}
 
 	@Override
 	public boolean includeInSnP() {
+		// Old instances default to true
+		if ( apiLevel < 2 ) {
+			return true;
+		}
+		
 		return allowSnP;
 	}
 
