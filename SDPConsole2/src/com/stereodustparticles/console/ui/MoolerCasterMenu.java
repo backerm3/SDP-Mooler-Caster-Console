@@ -15,6 +15,7 @@ import com.stereodustparticles.console.soundboard.Soundboard;
 import com.stereodustparticles.console.ui.setup.DeckSetup;
 import com.stereodustparticles.console.ui.setup.LibraryManagerUI;
 import com.stereodustparticles.console.ui.setup.MCSetup;
+import com.stereodustparticles.console.ui.setup.MRSListGenerator;
 import com.stereodustparticles.console.ui.setup.MRSSetup;
 import com.stereodustparticles.console.ui.setup.MiscSetup;
 import com.stereodustparticles.console.ui.setup.PlaylistSetup;
@@ -215,7 +216,22 @@ public class MoolerCasterMenu extends MenuBar {
 			});
 		});
 		
-		reqs.getItems().addAll(viewReqs, openClose, test);
+		// - Generate MRS Song List...
+		MenuItem songList = new MenuItem("Generate MRS Song List...");
+		songList.setOnAction((e) -> {
+			Microwave.showWarning("A Word of Warning...", "Depending on the size of your libraries, this process may take anywhere from a few minutes to a few months.  Plan accordingly.");
+			
+	 		FileChooser chooser = new FileChooser();
+	 		chooser.setTitle("Save Song List");
+	 		chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
+	 		chooser.setInitialDirectory(new File(Prefs.loadString(Prefs.LAST_LAYOUT_DIR)));
+	 		File dest = chooser.showSaveDialog(null);
+	 		if ( dest != null ) {
+	 			new MRSListGenerator(dest).start();
+	 		}
+		});
+		
+		reqs.getItems().addAll(viewReqs, openClose, test, songList);
 		
 		// Options menu
 		Menu options = new Menu("_Options");
