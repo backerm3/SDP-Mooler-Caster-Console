@@ -20,59 +20,64 @@
 		<mkdir dir="externalLibs" />
 	
 		<copy todir="externalLibs">
-			<fileset dir="C:\Users\Ben\workspace\SDPConsole2\lib">
-				<filename name="jorbis-0.0.17.jar"/>
+			<fileset dir="C:\Users\Ben\git\SDPConsole2\lib">
+				<filename name="jaudiotagger-2.2.6-SNAPSHOT.jar"/>
 			</fileset>
 		</copy>
 		<copy todir="externalLibs">
-			<fileset dir="C:\Users\Ben\workspace\SDPConsole2\lib">
-				<filename name="jogg-0.0.7.jar"/>
-			</fileset>
-		</copy>
-		<copy todir="externalLibs">
-			<fileset dir="C:\Users\Ben\workspace\SDPConsole2\lib">
-				<filename name="jl1.0.1.jar"/>
-			</fileset>
-		</copy>
-		<copy todir="externalLibs">
-			<fileset dir="C:\Users\Ben\workspace\SDPConsole2\lib">
-				<filename name="mp3spi1.9.5.jar"/>
-			</fileset>
-		</copy>
-		<copy todir="externalLibs">
-			<fileset dir="C:\Users\Ben\workspace\SDPConsole2\lib">
+			<fileset dir="C:\Users\Ben\git\SDPConsole2\lib">
 				<filename name="tritonus-share-0.3.7-2.jar"/>
 			</fileset>
 		</copy>
 		<copy todir="externalLibs">
-			<fileset dir="C:\Users\Ben\workspace\SDPConsole2\lib">
-				<filename name="zzz-jaad-0.8.5.jar"/>
+			<fileset dir="C:\Users\Ben\git\SDPConsole2\lib">
+				<filename name="jogg-0.0.7.jar"/>
 			</fileset>
 		</copy>
 		<copy todir="externalLibs">
-			<fileset dir="C:\Users\Ben\workspace\SDPConsole2\lib">
-				<filename name="jflac-codec-1.5.2.jar"/>
-			</fileset>
-		</copy>
-		<copy todir="externalLibs">
-			<fileset dir="C:\Users\Ben\workspace\SDPConsole2\lib">
-				<filename name="jSerialComm-1.3.11.jar"/>
-			</fileset>
-		</copy>
-		<copy todir="externalLibs">
-			<fileset dir="C:\Users\Ben\workspace\SDPConsole2\lib">
+			<fileset dir="C:\Users\Ben\git\SDPConsole2\lib">
 				<filename name="vorbisspi1.0.3.jar"/>
 			</fileset>
 		</copy>
 		<copy todir="externalLibs">
-			<fileset dir="C:\Users\Ben\workspace\SDPConsole2\lib">
-				<filename name="jaudiotagger-2.2.6-SNAPSHOT.jar"/>
+			<fileset dir="C:\Users\Ben\git\SDPConsole2\lib">
+				<filename name="jorbis-0.0.17.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\Ben\git\SDPConsole2\lib">
+				<filename name="Music-Request-Interface.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\Ben\git\SDPConsole2\lib">
+				<filename name="jSerialComm-1.3.11.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\Ben\git\SDPConsole2\lib">
+				<filename name="jl1.0.1.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\Ben\git\SDPConsole2\lib">
+				<filename name="mp3spi1.9.5.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\Ben\git\SDPConsole2\lib">
+				<filename name="zzz-jaad-0.8.5.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\Ben\git\SDPConsole2\lib">
+				<filename name="jflac-codec-1.5.2.jar"/>
 			</fileset>
 		</copy>
 	
 		<mkdir dir="project" />
 		<copy todir="project">
-			<fileset dir="C:\Users\Ben\workspace\SDPConsole2">
+			<fileset dir="C:\Users\Ben\git\SDPConsole2">
 				<include name="src/**" />
 			</fileset>
 		</copy>
@@ -94,6 +99,7 @@
 				<include name="jflac-codec-1.5.2.jar"/>
 				<include name="jSerialComm-1.3.11.jar"/>
 				<include name="mp3spi1.9.5.jar"/>
+				<include name="Music-Request-Interface.jar"/>
 				<include name="vorbisspi1.0.3.jar"/>
 				<include name="zzz-jaad-0.8.5.jar"/>
 				<include name="jogg-0.0.7.jar"/>
