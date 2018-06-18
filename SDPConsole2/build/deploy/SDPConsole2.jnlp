@@ -8,7 +8,8 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="SDPConsole2.jar" size="223620" download="eager" />
+    <jar href="SDPConsole2.jar" size="227885" download="eager" />
+    <jar href="libs\Music-Request-Interface.jar" size="78468" download="eager" />
     <jar href="libs\jSerialComm-1.3.11.jar" size="252175" download="eager" />
     <jar href="libs\jaudiotagger-2.2.6-SNAPSHOT.jar" size="1131113" download="eager" />
     <jar href="libs\jflac-codec-1.5.2.jar" size="81828" download="eager" />
