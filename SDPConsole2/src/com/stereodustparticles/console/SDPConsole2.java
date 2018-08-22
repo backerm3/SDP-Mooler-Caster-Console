@@ -29,7 +29,7 @@ import javafx.stage.WindowEvent;
  * Written by Ben Ackerman (IfYouLikeGoodIdeas) for Stereo Dust Particles, 2017
  * 
  * SDPConsole2: This is the main class that initializes the application and holds
- * any application-wide code that may be necessary
+ * any application-wide code that may be necessary.
  */
 
 public class SDPConsole2 extends Application {
