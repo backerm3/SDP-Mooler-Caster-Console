@@ -20,6 +20,8 @@ import com.stereodustparticles.console.pref.Prefs;
 import com.stereodustparticles.console.ui.DownloadMonitor;
 import com.stereodustparticles.console.ui.Microwave;
 
+import javafx.application.Platform;
+
 public class CachedAudio {
 	// Cache a file, then load it to the specified Loadable object
 	public static void cacheAndLoad(URL src, Loadable dest) throws IOException {
@@ -45,7 +47,9 @@ public class CachedAudio {
 				// If we didn't get a 200 OK response, complain and return
 				if ( connection.getResponseCode() != 200 ) {
 					monitor.done();
-					Microwave.showError("File Download Error", "Got a " + connection.getResponseCode() + " " + connection.getResponseMessage() + " error from the remote server when attempting to download:\n\n" + src.toString() + "\n\nRemind the server owner of their One Job, then try again.");
+					int responseCode = connection.getResponseCode();
+					String responseMsg = connection.getResponseMessage();
+					Platform.runLater(() -> Microwave.showError("File Download Error", "Got a " + responseCode + " " + responseMsg + " error from the remote server when attempting to download:\n\n" + src.toString() + "\n\nRemind the server owner of their One Job, then try again."));
 					connection.disconnect();
 					return;
 				}
