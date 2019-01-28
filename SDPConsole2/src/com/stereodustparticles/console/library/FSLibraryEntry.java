@@ -29,7 +29,7 @@ import com.stereodustparticles.console.Utils;
 
 public class FSLibraryEntry implements LibraryEntry {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
 	
 	private File location;
 	private String libName;
@@ -37,20 +37,23 @@ public class FSLibraryEntry implements LibraryEntry {
 	private String artist = null;
 	private int duration = -1;
 	private boolean loadable = true;
+	private String strName;
 	
 	public FSLibraryEntry(File location, String libName) {
 		this.location = location;
 		this.libName = libName;
+		
+		if ( location.isDirectory() ) {
+			this.strName = "[" + location.getName() + "]";
+		}
+		else {
+			this.strName = location.getName();
+		}
 	}
 	
 	@Override
 	public String toString() {
-		if ( location.isDirectory() ) {
-			return "[" + location.getName() + "]";
-		}
-		else {
-			return location.getName();
-		}
+		return strName;
 	}
 	
 	@Override
