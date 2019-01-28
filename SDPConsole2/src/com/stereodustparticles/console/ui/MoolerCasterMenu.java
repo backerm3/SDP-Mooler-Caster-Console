@@ -7,6 +7,7 @@ import com.stereodustparticles.console.SDPConsole2;
 import com.stereodustparticles.console.Utils;
 import com.stereodustparticles.console.deck.Decks;
 import com.stereodustparticles.console.error.MRSException;
+import com.stereodustparticles.console.library.LibraryManager;
 import com.stereodustparticles.console.mrs.MRSIntegration;
 import com.stereodustparticles.console.multi.MultiConsole;
 import com.stereodustparticles.console.playlist.Playlist;
@@ -105,6 +106,14 @@ public class MoolerCasterMenu extends MenuBar {
 		saveBlaAs.setAccelerator(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN));
 		saveBlaAs.setOnAction((e) -> saveBoardAs());
 		
+		// - Refresh Libraries
+		MenuItem refreshLibs = new MenuItem("Refresh Libraries");
+		refreshLibs.setOnAction((e) -> {
+			for ( String libName : LibraryManager.getAvailableLibraries() ) {
+				LibraryManager.getLibraryForName(libName).resetCache();
+			}
+		});
+		
 		// - Export Playlist
 		MenuItem exportPlaylist = new MenuItem("Export Current Playlist...");
 		exportPlaylist.setOnAction((e) -> {
@@ -153,7 +162,7 @@ public class MoolerCasterMenu extends MenuBar {
 			stage.close();
 		});
 		
-		file.getItems().addAll(newBla, openBla, new SeparatorMenuItem(), saveBla, saveBlaAs, new SeparatorMenuItem(), exportPlaylist, restorePlaylist, new SeparatorMenuItem(), exit);
+		file.getItems().addAll(newBla, openBla, new SeparatorMenuItem(), saveBla, saveBlaAs, new SeparatorMenuItem(), refreshLibs, new SeparatorMenuItem(), exportPlaylist, restorePlaylist, new SeparatorMenuItem(), exit);
 		
 		// Requests menu
 		Menu reqs = new Menu("_Requests");
