@@ -7,6 +7,9 @@ import com.stereodustparticles.console.SDPConsole2;
 import com.stereodustparticles.console.Utils;
 import com.stereodustparticles.console.deck.Decks;
 import com.stereodustparticles.console.error.MRSException;
+import com.stereodustparticles.console.event.Event;
+import com.stereodustparticles.console.event.EventBus;
+import com.stereodustparticles.console.event.EventType;
 import com.stereodustparticles.console.library.LibraryManager;
 import com.stereodustparticles.console.mrs.MRSIntegration;
 import com.stereodustparticles.console.multi.MultiConsole;
@@ -111,6 +114,7 @@ public class MoolerCasterMenu extends MenuBar {
 		refreshLibs.setOnAction((e) -> {
 			for ( String libName : LibraryManager.getAvailableLibraries() ) {
 				LibraryManager.getLibraryForName(libName).resetCache();
+				EventBus.fireEvent(new Event(EventType.LIBRARY_LIST_UPDATED));
 			}
 		});
 		

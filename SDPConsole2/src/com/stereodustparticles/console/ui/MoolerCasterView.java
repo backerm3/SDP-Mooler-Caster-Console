@@ -600,6 +600,9 @@ public class MoolerCasterView {
 			return;
 		}
 		
+		// Clear the current library view
+		Platform.runLater(() -> cLibDisplay.clear());
+		
 		try {
 			cLibData = library.getList();
 			
