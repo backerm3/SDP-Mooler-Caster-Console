@@ -30,7 +30,7 @@ public class CSVLibrary implements Library {
 	private URL csv;
 	private String name;
 	private int flags;
-	private transient List<LibraryEntry> list = null;
+	private transient List<LibraryEntry> list;
 	private boolean allowMRS;
 	private boolean allowSnP;
 	
