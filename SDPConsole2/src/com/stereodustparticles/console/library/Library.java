@@ -34,4 +34,5 @@ public interface Library extends Serializable {
 	public String getLocationAsString(); // Return the library's path as a string (for graphical editing)
 	public LibraryEntry getEntryFromLocation(String loc); // Return a LibraryEntry corresponding to the specified relative path within this library
 	public LibraryEntry pickRandomTrack() throws Exception; // Return a randomly-selected track
+	public void resetCache(); // Clear the directory listing cache
 }

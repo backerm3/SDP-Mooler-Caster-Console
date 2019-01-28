@@ -8,7 +8,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.stereodustparticles.console.SDPConsole2;
 import com.stereodustparticles.console.Utils;
@@ -22,6 +24,7 @@ public class FSLibrary implements Library {
 	private int flags;
 	private boolean allowMRS;
 	private boolean allowSnP;
+	private transient Map<File, List<LibraryEntry>> dirListCache;
 	
 	// Lame hack to allow updating parameters in old serialized instances
 	// Despite this assignment here, a deserialized object will have this set
@@ -55,28 +58,43 @@ public class FSLibrary implements Library {
 		this.flags = flags;
 		this.allowMRS = allowMRS;
 		this.allowSnP = allowSnP;
+		this.dirListCache = new HashMap<File, List<LibraryEntry>>();
+	}
+	
+	@Override
+	public void resetCache() {
+		dirListCache.clear();
 	}
 	
 	@Override
 	public List<LibraryEntry> getList() throws Exception {
-		// Get a directory listing
-		File[] dirList = currentDir.listFiles();
-		
-		// If no listing was returned, the user only had one job
-		if ( dirList == null ) {
-			throw new FileNotFoundException();
+		// Do we have a cached listing for this directory?
+		if ( dirListCache.containsKey(currentDir) ) {
+			return dirListCache.get(currentDir);
 		}
-		
-		// Alphabetize the directory listing (yes, we really need that)
-		Arrays.sort(dirList, new FSLibraryComparator());
-		
-		// Make a list of LibraryEntry objects from it
-		List<LibraryEntry> library = new ArrayList<LibraryEntry>();
-		for ( File file : dirList ) {
-			library.add(new FSLibraryEntry(file, name));
+		else {
+			// Get a directory listing
+			File[] dirList = currentDir.listFiles();
+			
+			// If no listing was returned, the user only had one job
+			if ( dirList == null ) {
+				throw new FileNotFoundException();
+			}
+			
+			// Alphabetize the directory listing (yes, we really need that)
+			Arrays.sort(dirList, new FSLibraryComparator());
+			
+			// Make a list of LibraryEntry objects from it
+			List<LibraryEntry> library = new ArrayList<LibraryEntry>();
+			for ( File file : dirList ) {
+				library.add(new FSLibraryEntry(file, name));
+			}
+			
+			// Store this directory listing in the cache
+			dirListCache.put(currentDir, library);
+			
+			return library;
 		}
-		
-		return library;
 	}
 
 	@Override
