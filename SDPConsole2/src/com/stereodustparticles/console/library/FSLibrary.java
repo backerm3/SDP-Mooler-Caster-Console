@@ -29,7 +29,7 @@ public class FSLibrary implements Library {
 	// Lame hack to allow updating parameters in old serialized instances
 	// Despite this assignment here, a deserialized object will have this set
 	// to whatever its value was when it was serialized
-	private int apiLevel = 2;
+	private int apiLevel = 3;
 	
 	// Subclass that defines the comparison rules used to sort a directory listing
 	private class FSLibraryComparator implements Comparator<File> {
@@ -59,6 +59,23 @@ public class FSLibrary implements Library {
 		this.allowMRS = allowMRS;
 		this.allowSnP = allowSnP;
 		this.dirListCache = new HashMap<File, List<LibraryEntry>>();
+	}
+	
+	@Override
+	public void updateAPILevel() {
+		// API level < 2: Set SnP/MRS allow flags
+		if ( apiLevel < 2 ) {
+			allowMRS = true;
+			allowSnP = true;
+		}
+		
+		// API level < 3: Initialize cache
+		if ( apiLevel < 3 ) {
+			dirListCache = new HashMap<File, List<LibraryEntry>>();
+		}
+		
+		// Done, set new API level
+		apiLevel = 3;
 	}
 	
 	@Override
@@ -219,21 +236,11 @@ public class FSLibrary implements Library {
 
 	@Override
 	public boolean includeInSongLists() {
-		// Old instances default to true
-		if ( apiLevel < 2 ) {
-			return true;
-		}
-		
 		return allowMRS;
 	}
 
 	@Override
 	public boolean includeInSnP() {
-		// Old instances default to true
-		if ( apiLevel < 2 ) {
-			return true;
-		}
-		
 		return allowSnP;
 	}
 

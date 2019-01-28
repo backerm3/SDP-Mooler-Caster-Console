@@ -37,7 +37,7 @@ public class CSVLibrary implements Library {
 	// Lame hack to allow updating parameters in old serialized instances
 	// Despite this assignment here, a deserialized object will have this set
 	// to whatever its value was when it was serialized
-	private int apiLevel = 2;
+	private int apiLevel = 3;
 	
 	public CSVLibrary(String name, URL csv, int flags, boolean allowMRS, boolean allowSnP) {
 		this.name = name;
@@ -46,6 +46,24 @@ public class CSVLibrary implements Library {
 		this.allowMRS = allowMRS;
 		this.allowSnP = allowSnP;
 		this.list = new ArrayList<LibraryEntry>();
+	}
+	
+	@Override
+	public void updateAPILevel() {
+		// API Level < 2: Set SnP/MRS allow flags to true, only if library is not SDP Other Media
+		if ( apiLevel < 2 ) {
+			boolean defaultAllow = (! name.equals("SDP Other Media"));
+			allowSnP = defaultAllow;
+			allowMRS = defaultAllow;
+		}
+		
+		// API Level < 3: Initialize list cache
+		if ( apiLevel < 3 ) {
+			list = new ArrayList<LibraryEntry>();
+		}
+		
+		// Done, set new API level
+		apiLevel = 3;
 	}
 	
 	@Override
@@ -193,21 +211,11 @@ public class CSVLibrary implements Library {
 	
 	@Override
 	public boolean includeInSongLists() {
-		// Old instances default to true, except for SDP Other Media
-		if ( apiLevel < 2 ) {
-			return (! name.equals("SDP Other Media"));
-		}
-		
 		return allowMRS;
 	}
 
 	@Override
 	public boolean includeInSnP() {
-		// Old instances default to true, except for SDP Other Media
-		if ( apiLevel < 2 ) {
-			return (! name.equals("SDP Other Media"));
-		}
-		
 		return allowSnP;
 	}
 

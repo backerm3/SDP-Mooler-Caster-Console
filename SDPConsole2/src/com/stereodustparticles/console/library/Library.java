@@ -35,4 +35,5 @@ public interface Library extends Serializable {
 	public LibraryEntry getEntryFromLocation(String loc); // Return a LibraryEntry corresponding to the specified relative path within this library
 	public LibraryEntry pickRandomTrack() throws Exception; // Return a randomly-selected track
 	public void resetCache(); // Clear the directory listing cache
+	public void updateAPILevel(); // Convert a deserialized object to the latest API level
 }
