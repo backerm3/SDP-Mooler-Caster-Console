@@ -149,9 +149,9 @@ public class MRSListGenerator {
 				lib.upOneLevel();
 			}
 			else {
-				String line = URLEncoder.encode(entry.toMRSData(), "UTF-8");
+				String line = entry.toMRSData();
 				if ( line != null ) {
-					bw.write(line + "\r\n");
+					bw.write(URLEncoder.encode(line, "UTF-8") + "\r\n");
 					filesProcessed++;
 					Platform.runLater(() -> processed.setText(filesProcessed + " files processed"));
 				}
