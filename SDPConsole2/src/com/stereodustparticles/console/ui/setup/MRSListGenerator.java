@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.net.URLEncoder;
 import java.util.List;
 
 import com.stereodustparticles.console.Utils;
@@ -148,7 +149,7 @@ public class MRSListGenerator {
 				lib.upOneLevel();
 			}
 			else {
-				String line = entry.toMRSData();
+				String line = URLEncoder.encode(entry.toMRSData(), "UTF-8");
 				if ( line != null ) {
 					bw.write(line + "\r\n");
 					filesProcessed++;
