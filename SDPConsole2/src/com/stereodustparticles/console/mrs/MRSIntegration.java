@@ -9,6 +9,7 @@
 package com.stereodustparticles.console.mrs;
 
 import java.util.ArrayList;
+import java.util.Base64;
 
 import com.stereodustparticles.console.error.MRSException;
 import com.stereodustparticles.console.library.LibraryEntry;
@@ -155,7 +156,7 @@ public class MRSIntegration {
 	// Recover the LibraryEntry buried inside a Request object
 	// Returns null if none found
 	public static LibraryEntry getRequestedTrack(Request req) {
-		String fn = req.getFilename();
+		String fn = new String(Base64.getDecoder().decode(req.getFilename()));
 		if ( ! fn.isEmpty() ) {
 			String[] parts = fn.split(":", 3); // Limit to 3 elements, so colons in the location don't get picked up
 			

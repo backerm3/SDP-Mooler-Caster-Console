@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Base64;
 
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
@@ -269,7 +270,7 @@ public class FSLibraryEntry implements LibraryEntry {
 			year = Utils.sanitizeForMRS(year);
 			
 			// Build hidden metadata string
-			String meta = "MCC:" + libName + ":" + LibraryManager.getLibraryForName(libName).getPathInLibrary(this).replace('\\', '/');
+			String meta = Base64.getEncoder().encodeToString(("MCC:" + libName + ":" + LibraryManager.getLibraryForName(libName).getPathInLibrary(this).replace('\\', '/')).getBytes());
 			
 			// Output the final string
 			return artist + "|" + title + "|" + album + "|" + year + "|" + meta;
