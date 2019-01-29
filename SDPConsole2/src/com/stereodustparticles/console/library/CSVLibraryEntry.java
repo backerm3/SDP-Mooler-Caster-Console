@@ -77,6 +77,12 @@ public class CSVLibraryEntry implements LibraryEntry {
 	public String getDurationPreview() {
 		return duration;
 	}
+	
+	@Override
+	public float getGain() {
+		// Not supported in CSV libraries (yet?)
+		return 0.0f;
+	}
 
 	@Override
 	public String getLibraryName() {

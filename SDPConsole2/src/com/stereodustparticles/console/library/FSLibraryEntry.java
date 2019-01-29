@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Base64;
+import java.util.Iterator;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
@@ -16,6 +19,7 @@ import org.jaudiotagger.tag.FieldKey;
 import org.jaudiotagger.tag.KeyNotFoundException;
 import org.jaudiotagger.tag.Tag;
 import org.jaudiotagger.tag.TagException;
+import org.jaudiotagger.tag.TagField;
 
 import com.stereodustparticles.console.Utils;
 
@@ -39,6 +43,7 @@ public class FSLibraryEntry implements LibraryEntry {
 	private int duration = -1;
 	private boolean loadable = true;
 	private String strName;
+	private float gain = 0.0f;
 	
 	public FSLibraryEntry(File location, String libName) {
 		this.location = location;
@@ -100,6 +105,7 @@ public class FSLibraryEntry implements LibraryEntry {
 			
 			return;
 		}
+		
 		AudioHeader header = af.getAudioHeader();
 		Tag tag = af.getTag();
 		
@@ -132,9 +138,24 @@ public class FSLibraryEntry implements LibraryEntry {
 			catch ( KeyNotFoundException e ) {
 				this.title = location.getName();
 			}
+			
+			// Find ReplayGain, if available
+			// Lightly adapted from https://github.com/sghpjuikit/player/issues/5
+			final Pattern gainPattern = Pattern.compile("-?[.\\d]+");
+			
+			Iterator<TagField> fields = tag.getFields();
+			while (fields.hasNext()) {
+				TagField field = fields.next();
+				if ((field.getId() + field.toString()).toLowerCase().contains("replaygain_track_gain")) {
+					Matcher m = gainPattern.matcher(field.toString());
+					m.find();
+					gain = Float.parseFloat(m.group());
+					break;
+				}
+			}
 		}
 		else {
-			// We have no tag present - use generic title/artist
+			// No tag found - use default information
 			this.artist = "(Unknown Artist)";
 			this.title = location.getName();
 		}
@@ -176,6 +197,11 @@ public class FSLibraryEntry implements LibraryEntry {
 		}
 		
 		return Utils.tenthsToStringShort(duration);
+	}
+	
+	@Override
+	public float getGain() {
+		return gain;
 	}
 
 	@Override
