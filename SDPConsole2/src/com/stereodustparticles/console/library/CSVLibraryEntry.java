@@ -1,8 +1,6 @@
 package com.stereodustparticles.console.library;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.net.URLEncoder;
 
 import com.stereodustparticles.console.Utils;
 import com.stereodustparticles.console.error.CSVParseException;
@@ -90,13 +88,7 @@ public class CSVLibraryEntry implements LibraryEntry {
 		artist = Utils.sanitizeForMRS(artist);
 		title = Utils.sanitizeForMRS(title);
 		
-		String meta;
-		try {
-			meta = URLEncoder.encode("MCC:" + libName + ":" + location.toString(), "UTF-8");
-		}
-		catch (UnsupportedEncodingException e) { // Should never happen
-			return null;
-		}
+		String meta = "MCC:" + libName + ":" + location.toString();
 		return artist + "|" + title + "|" + libName + "||" + meta; // Use library name as album for now
 	}
 

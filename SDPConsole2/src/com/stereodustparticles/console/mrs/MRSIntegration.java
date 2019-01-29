@@ -8,8 +8,6 @@
  */
 package com.stereodustparticles.console.mrs;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 
 import com.stereodustparticles.console.error.MRSException;
@@ -159,13 +157,8 @@ public class MRSIntegration {
 	public static LibraryEntry getRequestedTrack(Request req) {
 		String fn = req.getFilename();
 		if ( ! fn.isEmpty() ) {
-			String[] parts;
-			try {
-				parts = URLDecoder.decode(fn, "UTF-8").split(":", 3); // Limit to 3 elements, so colons in the location don't get picked up
-			}
-			catch (UnsupportedEncodingException e) { // This shouldn't happen, but if it does, we'll just say the filename wasn't there
-				return null;
-			}
+			String[] parts = fn.split(":", 3); // Limit to 3 elements, so colons in the location don't get picked up
+			
 			if ( parts[0].equals("MCC") ) {
 				return LibraryManager.getLibraryForName(parts[1]).getEntryFromLocation(parts[2]);
 			}

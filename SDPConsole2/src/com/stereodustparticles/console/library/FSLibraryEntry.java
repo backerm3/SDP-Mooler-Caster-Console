@@ -2,10 +2,8 @@ package com.stereodustparticles.console.library;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
 
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
@@ -271,13 +269,7 @@ public class FSLibraryEntry implements LibraryEntry {
 			year = Utils.sanitizeForMRS(year);
 			
 			// Build hidden metadata string
-			String meta;
-			try {
-				meta = URLEncoder.encode("MCC:" + libName + ":" + LibraryManager.getLibraryForName(libName).getPathInLibrary(this).replace('\\', '/'), "UTF-8");
-			}
-			catch (UnsupportedEncodingException e) { // Should never happen
-				return null;
-			}
+			String meta = "MCC:" + libName + ":" + LibraryManager.getLibraryForName(libName).getPathInLibrary(this).replace('\\', '/');
 			
 			// Output the final string
 			return artist + "|" + title + "|" + album + "|" + year + "|" + meta;
