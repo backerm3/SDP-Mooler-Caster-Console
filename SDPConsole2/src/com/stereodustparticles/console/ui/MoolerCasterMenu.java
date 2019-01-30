@@ -313,7 +313,7 @@ public class MoolerCasterMenu extends MenuBar {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				Microwave.showInfo("About the Mooler Caster Console", "SDP Mooler Caster Console\nVersion " + SDPConsole2.PROG_VERSION + "\n\nWritten for the Stereo Dust Particles group of broadcasters by Ben Ackerman (IfYouLikeGoodIdeas), 2016-18\n\nIncludes DTC playout technology, © 2018 Ben Ackerman/Stereo Dust Particles.  Mooler Caster Console and Stream 'n' Poop are trademarks of Stereo Dust Particles.  Not that anyone else would even think about using such silly names anyway...");
+				Microwave.showInfo("About the Mooler Caster Console", "SDP Mooler Caster Console\nVersion " + SDPConsole2.PROG_VERSION + "\n\nWritten for the Stereo Dust Particles group of broadcasters by Ben Ackerman (IfYouLikeGoodIdeas), 2016-19\n\nIncludes DTC playout technology, © 2019 Ben Ackerman/Stereo Dust Particles.  Mooler Caster Console and Stream 'n' Poop are trademarks of Stereo Dust Particles.  Not that anyone else would even think about using such silly names anyway...");
 			}
 			
 		});
