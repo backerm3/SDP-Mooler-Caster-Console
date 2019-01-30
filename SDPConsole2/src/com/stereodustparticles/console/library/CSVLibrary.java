@@ -30,7 +30,7 @@ public class CSVLibrary implements Library {
 	private URL csv;
 	private String name;
 	private int flags;
-	private transient List<LibraryEntry> list = new ArrayList<LibraryEntry>();
+	private transient List<LibraryEntry> list;
 	private boolean allowMRS;
 	private boolean allowSnP;
 	
@@ -56,11 +56,6 @@ public class CSVLibrary implements Library {
 			allowMRS = defaultAllow;
 		}
 		
-		// API Level < 3: Initialize list cache
-		if ( apiLevel < 3 ) {
-			list = new ArrayList<LibraryEntry>();
-		}
-		
 		// Done, set new API level
 		apiLevel = 3;
 	}
@@ -72,48 +67,52 @@ public class CSVLibrary implements Library {
 	
 	@Override
 	public List<LibraryEntry> getList() throws Exception {
+		// If cache isn't initialized, initialize it
+		if ( list == null ) {
+			list = new ArrayList<LibraryEntry>();
+		}
+		
 		// If the cached list isn't empty, return that
-		if ( ! list.isEmpty() ) {
+		else if ( ! list.isEmpty() ) {
 			return list;
 		}
-		else {
-			try {
-				// Open connection
-				HttpURLConnection connection = (HttpURLConnection)csv.openConnection();
-				
-				// Set User-Agent header
-				connection.setRequestProperty("User-Agent", "SDPConsole/" + SDPConsole2.PROG_VERSION);
-				
-				// If response is not 200 OK, pop up an error and return
-				if ( connection.getResponseCode() != 200 ) {
-					throw new HTTPException(csv.toString(), connection.getResponseCode() + " " + connection.getResponseMessage());
-				}
-				
-				// Create a buffered reader, then read and parse the response body line-by-line
-				BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-				String line;
-				while ( (line = in.readLine()) != null ) {
-					try {
-						LibraryEntry entry = new CSVLibraryEntry(line, name);
-						list.add(entry);
-					}
-					catch (CSVParseException e) {
-						e.setFile(csv.toString());
-						
-						// Show the error here, rather than throw the exception up the chain, so we can continue trying to parse the rest of the file
-						Microwave.showWarning("Error Loading Library", "Got a bad line while parsing the SDP spot list.  Tell Weasel he only had ONE JOB!\n\nLine: " + e.getOffendingLine() + "\nFile: " + e.getFile());
-					}
-				}
-				
-				// We're done here, close the connection
-				in.close();
-			}
-			catch (IOException e) {
-				throw new ModemDefenestrationException(e.getMessage());
+		
+		try {
+			// Open connection
+			HttpURLConnection connection = (HttpURLConnection)csv.openConnection();
+			
+			// Set User-Agent header
+			connection.setRequestProperty("User-Agent", "SDPConsole/" + SDPConsole2.PROG_VERSION);
+			
+			// If response is not 200 OK, pop up an error and return
+			if ( connection.getResponseCode() != 200 ) {
+				throw new HTTPException(csv.toString(), connection.getResponseCode() + " " + connection.getResponseMessage());
 			}
 			
-			return list;
+			// Create a buffered reader, then read and parse the response body line-by-line
+			BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			String line;
+			while ( (line = in.readLine()) != null ) {
+				try {
+					LibraryEntry entry = new CSVLibraryEntry(line, name);
+					list.add(entry);
+				}
+				catch (CSVParseException e) {
+					e.setFile(csv.toString());
+					
+					// Show the error here, rather than throw the exception up the chain, so we can continue trying to parse the rest of the file
+					Microwave.showWarning("Error Loading Library", "Got a bad line while parsing the SDP spot list.  Tell Weasel he only had ONE JOB!\n\nLine: " + e.getOffendingLine() + "\nFile: " + e.getFile());
+				}
+			}
+			
+			// We're done here, close the connection
+			in.close();
 		}
+		catch (IOException e) {
+			throw new ModemDefenestrationException(e.getMessage());
+		}
+		
+		return list;
 	}
 
 	@Override
