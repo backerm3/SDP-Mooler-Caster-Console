@@ -30,7 +30,7 @@ public class CSVLibrary implements Library {
 	private URL csv;
 	private String name;
 	private int flags;
-	private transient List<LibraryEntry> list;
+	private transient List<LibraryEntry> list = new ArrayList<LibraryEntry>();
 	private boolean allowMRS;
 	private boolean allowSnP;
 	
@@ -45,7 +45,6 @@ public class CSVLibrary implements Library {
 		this.flags = flags;
 		this.allowMRS = allowMRS;
 		this.allowSnP = allowSnP;
-		this.list = new ArrayList<LibraryEntry>();
 	}
 	
 	@Override

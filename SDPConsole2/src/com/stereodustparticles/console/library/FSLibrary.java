@@ -24,7 +24,7 @@ public class FSLibrary implements Library {
 	private int flags;
 	private boolean allowMRS;
 	private boolean allowSnP;
-	private transient Map<File, List<LibraryEntry>> dirListCache;
+	private transient Map<File, List<LibraryEntry>> dirListCache = new HashMap<File, List<LibraryEntry>>();
 	
 	// Lame hack to allow updating parameters in old serialized instances
 	// Despite this assignment here, a deserialized object will have this set
@@ -58,7 +58,6 @@ public class FSLibrary implements Library {
 		this.flags = flags;
 		this.allowMRS = allowMRS;
 		this.allowSnP = allowSnP;
-		this.dirListCache = new HashMap<File, List<LibraryEntry>>();
 	}
 	
 	@Override
