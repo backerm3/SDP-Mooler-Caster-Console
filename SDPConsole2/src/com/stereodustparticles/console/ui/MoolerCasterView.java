@@ -401,9 +401,9 @@ public class MoolerCasterView {
 				DeckLoadRequest req = new DeckLoadRequest(cEntry.getTitle(), cEntry.getArtist(), cEntry.getDuration(), cLibrary, LibraryManager.getLibraryForName(cLibrary).getPathInLibrary(cEntry), 1);
 				EventBus.fireEvent(new Event(EventType.DECK_REQUEST_LOAD, req));
 				
-				// If ReplayGain is present, adjust the volume to its value
+				// If ReplayGain is present, adjust the volume fader to its value
 				if ( cEntry.getGain() != 0.0f ) {
-					EventBus.fireEvent(new Event(EventType.DECK_VOLUME_ADJUST, 1, cEntry.getGain()));
+					EventBus.fireEvent(new Event(EventType.DECK_FADER_SET, 1, cEntry.getGain()));
 				}
 				
 				if ( Prefs.loadBoolean(Prefs.AUTO_ADD_TENTATIVE) && ! Decks.snpIsEnabled() ) {
@@ -428,9 +428,9 @@ public class MoolerCasterView {
 				DeckLoadRequest req = new DeckLoadRequest(cEntry.getTitle(), cEntry.getArtist(), cEntry.getDuration(), cLibrary, LibraryManager.getLibraryForName(cLibrary).getPathInLibrary(cEntry), 2);
 				EventBus.fireEvent(new Event(EventType.DECK_REQUEST_LOAD, req));
 				
-				// If ReplayGain is present, adjust the volume to its value
+				// If ReplayGain is present, adjust the volume fader to its value
 				if ( cEntry.getGain() != 0.0f ) {
-					EventBus.fireEvent(new Event(EventType.DECK_VOLUME_ADJUST, 2, cEntry.getGain()));
+					EventBus.fireEvent(new Event(EventType.DECK_FADER_SET, 2, cEntry.getGain()));
 				}
 				
 				if ( Prefs.loadBoolean(Prefs.AUTO_ADD_TENTATIVE) && ! Decks.snpIsEnabled() ) {

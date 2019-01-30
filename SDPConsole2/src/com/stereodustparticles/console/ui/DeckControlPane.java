@@ -130,20 +130,19 @@ public class DeckControlPane extends GridPane {
 			@Override
 	        public void changed(ObservableValue<? extends Number> ov, Number oldValue, Number newValue) {
 	        	EventBus.fireEvent(new Event(EventType.DECK_VOLUME_ADJUST, deckNum, newValue.floatValue()));
+	        	// TODO propagate this event to all other UIs in the Multi-Console cluster
 	        }
             
         });
 		
-		// If a remote DECK_VOLUME_ADJUST comes in (i.e. one for a value other than the current one), move the slider
-		EventBus.registerListener(EventType.DECK_VOLUME_ADJUST, (e) -> {
+		// Respond to DECK_FADER_SET by, well, setting the fader!
+		// The resulting JavaFX event should trip the corresponding DECK_VOLUME_ADJUST
+		// (which is a really stupid way of doing this, but that's what I get for coding myself into a corner...)
+		EventBus.registerListener(EventType.DECK_FADER_SET, (e) -> {
 			int deck = (Integer)e.getParams()[0];
 			
 			if ( deck == deckNum ) {
-				float newVolume = (Float)e.getParams()[1];
-				
-				if ( newVolume - volume.getValue() > 0.01 ) {
-					volume.setValue(newVolume);
-				}
+				volume.setValue((Float)e.getParams()[1]);
 			}
 		});
 		
