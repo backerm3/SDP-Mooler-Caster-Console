@@ -30,14 +30,14 @@ public class CSVLibrary implements Library {
 	private URL csv;
 	private String name;
 	private int flags;
-	private List<LibraryEntry> list = null;
+	private transient List<LibraryEntry> list;
 	private boolean allowMRS;
 	private boolean allowSnP;
 	
 	// Lame hack to allow updating parameters in old serialized instances
 	// Despite this assignment here, a deserialized object will have this set
 	// to whatever its value was when it was serialized
-	private int apiLevel = 2;
+	private int apiLevel = 3;
 	
 	public CSVLibrary(String name, URL csv, int flags, boolean allowMRS, boolean allowSnP) {
 		this.name = name;
@@ -48,8 +48,34 @@ public class CSVLibrary implements Library {
 	}
 	
 	@Override
+	public void updateAPILevel() {
+		// API Level < 2: Set SnP/MRS allow flags to true, only if library is not SDP Other Media
+		if ( apiLevel < 2 ) {
+			boolean defaultAllow = (! name.equals("SDP Other Media"));
+			allowSnP = defaultAllow;
+			allowMRS = defaultAllow;
+		}
+		
+		// Done, set new API level
+		apiLevel = 3;
+	}
+	
+	@Override
+	public void resetCache() {
+		list.clear();
+	}
+	
+	@Override
 	public List<LibraryEntry> getList() throws Exception {
-		list = new ArrayList<LibraryEntry>();
+		// If cache isn't initialized, initialize it
+		if ( list == null ) {
+			list = new ArrayList<LibraryEntry>();
+		}
+		
+		// If the cached list isn't empty, return that
+		else if ( ! list.isEmpty() ) {
+			return list;
+		}
 		
 		try {
 			// Open connection
@@ -183,21 +209,11 @@ public class CSVLibrary implements Library {
 	
 	@Override
 	public boolean includeInSongLists() {
-		// Old instances default to true, except for SDP Other Media
-		if ( apiLevel < 2 ) {
-			return (! name.equals("SDP Other Media"));
-		}
-		
 		return allowMRS;
 	}
 
 	@Override
 	public boolean includeInSnP() {
-		// Old instances default to true, except for SDP Other Media
-		if ( apiLevel < 2 ) {
-			return (! name.equals("SDP Other Media"));
-		}
-		
 		return allowSnP;
 	}
 

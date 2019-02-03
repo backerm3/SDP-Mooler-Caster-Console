@@ -7,6 +7,10 @@ import com.stereodustparticles.console.SDPConsole2;
 import com.stereodustparticles.console.Utils;
 import com.stereodustparticles.console.deck.Decks;
 import com.stereodustparticles.console.error.MRSException;
+import com.stereodustparticles.console.event.Event;
+import com.stereodustparticles.console.event.EventBus;
+import com.stereodustparticles.console.event.EventType;
+import com.stereodustparticles.console.library.LibraryManager;
 import com.stereodustparticles.console.mrs.MRSIntegration;
 import com.stereodustparticles.console.multi.MultiConsole;
 import com.stereodustparticles.console.playlist.Playlist;
@@ -105,6 +109,15 @@ public class MoolerCasterMenu extends MenuBar {
 		saveBlaAs.setAccelerator(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN));
 		saveBlaAs.setOnAction((e) -> saveBoardAs());
 		
+		// - Refresh Libraries
+		MenuItem refreshLibs = new MenuItem("Refresh Libraries");
+		refreshLibs.setOnAction((e) -> {
+			for ( String libName : LibraryManager.getAvailableLibraries() ) {
+				LibraryManager.getLibraryForName(libName).resetCache();
+				EventBus.fireEvent(new Event(EventType.LIBRARY_LIST_UPDATED));
+			}
+		});
+		
 		// - Export Playlist
 		MenuItem exportPlaylist = new MenuItem("Export Current Playlist...");
 		exportPlaylist.setOnAction((e) -> {
@@ -153,7 +166,7 @@ public class MoolerCasterMenu extends MenuBar {
 			stage.close();
 		});
 		
-		file.getItems().addAll(newBla, openBla, new SeparatorMenuItem(), saveBla, saveBlaAs, new SeparatorMenuItem(), exportPlaylist, restorePlaylist, new SeparatorMenuItem(), exit);
+		file.getItems().addAll(newBla, openBla, new SeparatorMenuItem(), saveBla, saveBlaAs, new SeparatorMenuItem(), refreshLibs, new SeparatorMenuItem(), exportPlaylist, restorePlaylist, new SeparatorMenuItem(), exit);
 		
 		// Requests menu
 		Menu reqs = new Menu("_Requests");
@@ -300,7 +313,7 @@ public class MoolerCasterMenu extends MenuBar {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				Microwave.showInfo("About the Mooler Caster Console", "SDP Mooler Caster Console\nVersion " + SDPConsole2.PROG_VERSION + "\n\nWritten for the Stereo Dust Particles group of broadcasters by Ben Ackerman (IfYouLikeGoodIdeas), 2016-18\n\nIncludes DTC playout technology, © 2018 Ben Ackerman/Stereo Dust Particles.  Mooler Caster Console and Stream 'n' Poop are trademarks of Stereo Dust Particles.  Not that anyone else would even think about using such silly names anyway...");
+				Microwave.showInfo("About the Mooler Caster Console", "SDP Mooler Caster Console\nVersion " + SDPConsole2.PROG_VERSION + "\n\nWritten for the Stereo Dust Particles group of broadcasters by Ben Ackerman (IfYouLikeGoodIdeas), 2016-19\n\nIncludes DTC playout technology, © 2019 Ben Ackerman/Stereo Dust Particles.  Mooler Caster Console and Stream 'n' Poop are trademarks of Stereo Dust Particles.  Not that anyone else would even think about using such silly names anyway...");
 			}
 			
 		});

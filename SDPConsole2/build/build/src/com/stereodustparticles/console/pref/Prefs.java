@@ -18,6 +18,8 @@ import com.stereodustparticles.console.multi.SerialUtils;
 import com.stereodustparticles.console.playlist.PlaylistFlags;
 import com.stereodustparticles.console.ui.Microwave;
 
+import javafx.application.Platform;
+
 /*
  * SDP Mooler Caster Console - version 2
  * Simple DJ software for "Mooler Casting" operations
@@ -97,7 +99,7 @@ public class Prefs {
 		}
 		catch (ClassNotFoundException | IOException | BackingStoreException e) {
 			// TODO improve this?  move it into UI class?
-			Microwave.showException("Error Saving Preferences", "Saving the library list failed.  Something most definitely needs to be microwaved.", e);
+			Platform.runLater(() -> Microwave.showException("Error Saving Preferences", "Saving the library list failed.  Something most definitely needs to be microwaved.", e));
 		}
 	}
 	
@@ -107,10 +109,16 @@ public class Prefs {
 			// However, we do actually know what they are (as long as no one has f'ed with the prefs table)
 			@SuppressWarnings("unchecked")
 			Map<String, Library> libList = (Map<String, Library>) PrefObj.getObject(prefs, LIBRARY_LIST);
+			
 			if ( libList == null ) {
 				return getDefaultLibraryList();
 			}
 			else {
+				// Update all retrieved libraries to the latest API level
+				for ( Library lib : libList.values() ) {
+					lib.updateAPILevel();
+				}
+				
 				return libList;
 			}
 		}

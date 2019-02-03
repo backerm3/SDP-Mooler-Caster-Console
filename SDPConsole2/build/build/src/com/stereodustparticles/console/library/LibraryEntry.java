@@ -21,6 +21,7 @@ public interface LibraryEntry extends Serializable {
 	public String getArtist(); // Return the "artist" field of the track's metadata
 	public int getDuration(); // Return the actual duration of the track in tenths of seconds
 	public String getDurationPreview(); // Return a string representation of the track's duration (can be only to the whole second)
+	public float getGain(); // Return the ReplayGain value for this track, or 0 if none present
 	public String toMRSData(); // Return an MRS-compatible metadata string for this entry
 	
 	// NOTE: Classes implementing this interface should also override the toString() method so it returns

@@ -21,6 +21,7 @@ public enum EventType {
 	DECK_READY, // Deck number (int), confirmed duration (int)
 	DECK_LOAD_ERROR, // Exception that was thrown, associated deck number (int)
 	DECK_VOLUME_ADJUST, // Deck number (Integer), new volume level (Float)
+	DECK_FADER_SET, // Deck number (Integer), new fader position (Float) - JavaFX events should cause DECK_VOLUME_ADJUST to follow this event
 	SNP_TRIGGER, // Number of the deck that *triggered* SnP (Integer)
 	SPOT_PLAYBACK_STARTED, // Integers - Row, Column
 	SPOT_PLAYBACK_STOPPED, // Integers - Row, Column

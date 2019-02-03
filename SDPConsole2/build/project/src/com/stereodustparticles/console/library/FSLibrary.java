@@ -8,7 +8,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.stereodustparticles.console.SDPConsole2;
 import com.stereodustparticles.console.Utils;
@@ -22,11 +24,12 @@ public class FSLibrary implements Library {
 	private int flags;
 	private boolean allowMRS;
 	private boolean allowSnP;
+	private transient Map<File, List<LibraryEntry>> dirListCache;
 	
 	// Lame hack to allow updating parameters in old serialized instances
 	// Despite this assignment here, a deserialized object will have this set
 	// to whatever its value was when it was serialized
-	private int apiLevel = 2;
+	private int apiLevel = 3;
 	
 	// Subclass that defines the comparison rules used to sort a directory listing
 	private class FSLibraryComparator implements Comparator<File> {
@@ -58,7 +61,34 @@ public class FSLibrary implements Library {
 	}
 	
 	@Override
+	public void updateAPILevel() {
+		// API level < 2: Set SnP/MRS allow flags
+		if ( apiLevel < 2 ) {
+			allowMRS = true;
+			allowSnP = true;
+		}
+		
+		// Done, set new API level
+		apiLevel = 3;
+	}
+	
+	@Override
+	public void resetCache() {
+		dirListCache.clear();
+	}
+	
+	@Override
 	public List<LibraryEntry> getList() throws Exception {
+		// If cache is not initialized, initialize it
+		if ( dirListCache == null ) {
+			dirListCache = new HashMap<File, List<LibraryEntry>>();
+		}
+		
+		// Do we have a cached listing for this directory?
+		else if ( dirListCache.containsKey(currentDir) ) {
+			return dirListCache.get(currentDir);
+		}
+		
 		// Get a directory listing
 		File[] dirList = currentDir.listFiles();
 		
@@ -75,6 +105,9 @@ public class FSLibrary implements Library {
 		for ( File file : dirList ) {
 			library.add(new FSLibraryEntry(file, name));
 		}
+		
+		// Store this directory listing in the cache
+		dirListCache.put(currentDir, library);
 		
 		return library;
 	}
@@ -201,21 +234,11 @@ public class FSLibrary implements Library {
 
 	@Override
 	public boolean includeInSongLists() {
-		// Old instances default to true
-		if ( apiLevel < 2 ) {
-			return true;
-		}
-		
 		return allowMRS;
 	}
 
 	@Override
 	public boolean includeInSnP() {
-		// Old instances default to true
-		if ( apiLevel < 2 ) {
-			return true;
-		}
-		
 		return allowSnP;
 	}
 

@@ -1,6 +1,7 @@
 package com.stereodustparticles.console.library;
 
 import java.net.URL;
+import java.util.Base64;
 
 import com.stereodustparticles.console.Utils;
 import com.stereodustparticles.console.error.CSVParseException;
@@ -76,6 +77,12 @@ public class CSVLibraryEntry implements LibraryEntry {
 	public String getDurationPreview() {
 		return duration;
 	}
+	
+	@Override
+	public float getGain() {
+		// Not supported in CSV libraries (yet?)
+		return 0.0f;
+	}
 
 	@Override
 	public String getLibraryName() {
@@ -88,7 +95,7 @@ public class CSVLibraryEntry implements LibraryEntry {
 		artist = Utils.sanitizeForMRS(artist);
 		title = Utils.sanitizeForMRS(title);
 		
-		String meta = "MCC:" + libName + ":" + location.toString();
+		String meta = Base64.getEncoder().encodeToString(("MCC:" + libName + ":" + location.toString()).getBytes());
 		return artist + "|" + title + "|" + libName + "||" + meta; // Use library name as album for now
 	}
 

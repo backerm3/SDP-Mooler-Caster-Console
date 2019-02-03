@@ -140,7 +140,11 @@ public class Deck implements Loadable {
 					Object[] params = e.getParams();
 					
 					if ( ((Integer)params[0]).intValue() == deckNum ) {
-						setVolume((Float)params[1]);
+						float newVolume = ((Float)params[1]).floatValue();
+						
+						if ( newVolume != volume ) {
+							setVolume(newVolume);
+						}
 					}
 				}
 			}

@@ -130,10 +130,21 @@ public class DeckControlPane extends GridPane {
 			@Override
 	        public void changed(ObservableValue<? extends Number> ov, Number oldValue, Number newValue) {
 	        	EventBus.fireEvent(new Event(EventType.DECK_VOLUME_ADJUST, deckNum, newValue.floatValue()));
-	        	// TODO make this propagate to all UIs in the MC chain
+	        	// TODO propagate this event to all other UIs in the Multi-Console cluster
 	        }
             
         });
+		
+		// Respond to DECK_FADER_SET by, well, setting the fader!
+		// The resulting JavaFX event should trip the corresponding DECK_VOLUME_ADJUST
+		// (which is a really stupid way of doing this, but that's what I get for coding myself into a corner...)
+		EventBus.registerListener(EventType.DECK_FADER_SET, (e) -> {
+			int deck = (Integer)e.getParams()[0];
+			
+			if ( deck == deckNum ) {
+				volume.setValue((Float)e.getParams()[1]);
+			}
+		});
 		
 		// By UXWBill's suggestion, make the Play button change to "I'm Feeling Lucky" on a load error :P
 		// Also re-enable the buttons so that the DJ can, in fact, test their luck!
