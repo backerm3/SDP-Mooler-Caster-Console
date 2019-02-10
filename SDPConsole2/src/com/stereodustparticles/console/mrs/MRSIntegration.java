@@ -156,13 +156,18 @@ public class MRSIntegration {
 	// Recover the LibraryEntry buried inside a Request object
 	// Returns null if none found
 	public static LibraryEntry getRequestedTrack(Request req) {
-		String fn = new String(Base64.getDecoder().decode(req.getFilename()));
-		if ( ! fn.isEmpty() ) {
-			String[] parts = fn.split(":", 3); // Limit to 3 elements, so colons in the location don't get picked up
-			
-			if ( parts[0].equals("MCC") ) {
-				return LibraryManager.getLibraryForName(parts[1]).getEntryFromLocation(parts[2]);
-			}
+		String fn = req.getFilename();
+		
+		// If the above method returns nothing, no filename is available, so stop here
+		if ( fn.isEmpty() ) {
+			return null;
+		}
+		
+		String decoded = new String(Base64.getDecoder().decode(fn));
+		String[] parts = decoded.split(":", 3); // Limit to 3 elements, so colons in the location don't get picked up
+		
+		if ( parts[0].equals("MCC") ) {
+			return LibraryManager.getLibraryForName(parts[1]).getEntryFromLocation(parts[2]);
 		}
 		
 		// If we reach this point, no entry could be recovered.  Return null.
