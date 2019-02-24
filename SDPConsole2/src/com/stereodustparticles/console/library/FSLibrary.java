@@ -74,7 +74,7 @@ public class FSLibrary implements Library {
 	
 	@Override
 	public void resetCache() {
-		dirListCache.clear();
+		if ( dirListCache != null ) dirListCache.clear();
 	}
 	
 	@Override
