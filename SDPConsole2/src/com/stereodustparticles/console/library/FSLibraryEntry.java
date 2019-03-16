@@ -22,6 +22,7 @@ import org.jaudiotagger.tag.TagException;
 import org.jaudiotagger.tag.TagField;
 
 import com.stereodustparticles.console.Utils;
+import com.stereodustparticles.console.pref.Prefs;
 
 /*
  * SDP Mooler Caster Console - version 2
@@ -298,8 +299,14 @@ public class FSLibraryEntry implements LibraryEntry {
 			// Build hidden metadata string
 			String meta = Base64.getEncoder().encodeToString(("MCC:" + libName + ":" + LibraryManager.getLibraryForName(libName).getPathInLibrary(this).replace('\\', '/')).getBytes());
 			
-			// Output the final string
-			return artist + "|" + title + "|" + album + "|" + year + "|" + meta;
+			// Output the final string, using the format selected in MRS Setup
+			if ( ! Prefs.loadBoolean(Prefs.MRS_OLD_LISTS) ) {
+				long timestamp = location.lastModified() / 1000l;
+				return Long.toString(timestamp) + "|0|0|" + artist + "|" + title + "|" + album + "|" + year + "|" + meta;
+			}
+			else {
+				return artist + "|" + title + "|" + album + "|" + year + "|" + meta;
+			}
 		}
 		else {
 			return null;
