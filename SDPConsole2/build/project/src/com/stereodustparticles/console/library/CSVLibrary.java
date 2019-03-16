@@ -62,7 +62,7 @@ public class CSVLibrary implements Library {
 	
 	@Override
 	public void resetCache() {
-		list.clear();
+		if ( list != null ) list.clear();
 	}
 	
 	@Override

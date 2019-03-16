@@ -15,6 +15,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -26,6 +27,9 @@ import javafx.stage.StageStyle;
 
 public class MRSSetup {
 	private static Stage stage = null;
+	private static TextField url;
+	private static PasswordField key;
+	private static CheckBox oldLists;
 	
 	private static void init() {
 		stage = new Stage();
@@ -47,14 +51,17 @@ public class MRSSetup {
 		mtxPane.add(new Label("Base URL:"), 0, 0);
 		mtxPane.add(new Label("API Key:"), 0, 1);
 		
-		TextField url = new TextField(Prefs.loadString(Prefs.MRS_URL));
-		PasswordField key = new PasswordField();
-		key.setText(Prefs.loadString(Prefs.MRS_KEY));
+		url = new TextField();
+		key = new PasswordField();
 		
 		mtxPane.add(url, 1, 0);
 		mtxPane.add(key, 1, 1);
 		
 		root.getChildren().add(mtxPane);
+		
+		// "Use old list format" checkbox
+		oldLists = new CheckBox("Generate song lists in old format");
+		root.getChildren().add(oldLists);
 		
 		// "Butts"
 		HBox buttBar = new HBox(8);
@@ -68,6 +75,7 @@ public class MRSSetup {
 		ok.setOnAction((e) -> {
 			Prefs.saveString(Prefs.MRS_URL, url.getText());
 			Prefs.saveString(Prefs.MRS_KEY, key.getText());
+			Prefs.saveBoolean(Prefs.MRS_OLD_LISTS, oldLists.isSelected());
 			
 			stage.close();
 			MRSIntegration.init();
@@ -84,6 +92,10 @@ public class MRSSetup {
 		if ( stage == null ) {
 			init();
 		}
+		
+		url.setText(Prefs.loadString(Prefs.MRS_URL));
+		key.setText(Prefs.loadString(Prefs.MRS_KEY));
+		oldLists.setSelected(Prefs.loadBoolean(Prefs.MRS_OLD_LISTS));
 		
 		stage.show();
 	}

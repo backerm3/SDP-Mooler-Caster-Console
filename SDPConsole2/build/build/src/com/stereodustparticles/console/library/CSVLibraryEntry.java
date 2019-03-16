@@ -5,6 +5,7 @@ import java.util.Base64;
 
 import com.stereodustparticles.console.Utils;
 import com.stereodustparticles.console.error.CSVParseException;
+import com.stereodustparticles.console.pref.Prefs;
 
 /*
  * SDP Mooler Caster Console - version 2
@@ -96,7 +97,15 @@ public class CSVLibraryEntry implements LibraryEntry {
 		title = Utils.sanitizeForMRS(title);
 		
 		String meta = Base64.getEncoder().encodeToString(("MCC:" + libName + ":" + location.toString()).getBytes());
-		return artist + "|" + title + "|" + libName + "||" + meta; // Use library name as album for now
+		
+		// Output the final string, using the format selected in MRS Setup
+		// TODO Get a real timestamp from somewhere?
+		if ( ! Prefs.loadBoolean(Prefs.MRS_OLD_LISTS) ) {
+			return "0|0|0|" + artist + "|" + title + "|" + libName + "||" + meta; // Use library name as album for now
+		}
+		else {
+			return artist + "|" + title + "|" + libName + "||" + meta; // Use library name as album for now
+		}
 	}
 
 	@Override
