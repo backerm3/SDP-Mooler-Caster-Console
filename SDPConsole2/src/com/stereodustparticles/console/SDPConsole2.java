@@ -34,7 +34,7 @@ import javafx.stage.WindowEvent;
 
 public class SDPConsole2 extends Application {
 	// Global Constants
-	public static final String PROG_VERSION = "2.01"; // Program version constant
+	public static final String PROG_VERSION = "2.02"; // Program version constant
 	
 	// Global random number generator
 	public static Random random = new Random();
