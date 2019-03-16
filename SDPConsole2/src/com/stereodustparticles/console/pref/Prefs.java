@@ -60,6 +60,7 @@ public class Prefs {
 	public static final String MC_PLAYLIST_MODE = "mc_playlist_mode";
 	public static final String MRS_URL = "mrs_url";
 	public static final String MRS_KEY = "mrs_key";
+	public static final String MRS_OLD_LISTS = "mrs_old_lists";
 	
 	public static void init() {
 		prefs = Preferences.userNodeForPackage(SDPConsole2.class);
@@ -90,6 +91,7 @@ public class Prefs {
 		defaults.put(MC_PLAYLIST_MODE, "A");
 		defaults.put(MRS_URL, "");
 		defaults.put(MRS_KEY, "");
+		defaults.put(MRS_OLD_LISTS, false);
 	}
 	
 	public static void saveLibraryList() {
