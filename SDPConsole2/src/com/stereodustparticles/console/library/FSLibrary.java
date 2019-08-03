@@ -197,7 +197,7 @@ public class FSLibrary implements Library {
 	public LibraryEntry pickRandomTrack() throws Exception {
 		LibraryEntry ret = null;
 		
-		File startDir = currentDir;
+		String startDir = currentDir.toString();
 		
 		backToRoot();
 		
@@ -222,7 +222,7 @@ public class FSLibrary implements Library {
 			}
 		}
 		
-		currentDir = startDir;
+		currentDir = new File(startDir);
 		
 		return ret;
 	}
