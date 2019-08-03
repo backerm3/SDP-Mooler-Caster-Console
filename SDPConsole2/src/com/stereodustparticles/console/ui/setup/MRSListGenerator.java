@@ -88,6 +88,9 @@ public class MRSListGenerator {
 				for ( String libName : LibraryManager.getAvailableLibraries() ) {
 					Library lib = LibraryManager.getLibraryForName(libName);
 					
+					// Reset library to root (fixes "song list of only one folder" bug)
+					lib.backToRoot();
+					
 					// If library doesn't have inclusion in song lists enabled, skip it
 					if ( ! lib.includeInSongLists() ) {
 						continue;
