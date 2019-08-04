@@ -286,12 +286,14 @@ public class MoolerCasterMenu extends MenuBar {
 			Decks.setSNPEnabled(! Decks.snpIsEnabled());
 			snp.setSelected(Decks.snpIsEnabled());
 			
-			// If either deck isn't ready (or playing), load something there so as to avoid One Job(TM) incidents
-			if ( ! Decks.deck1.isPlaying() && ! Decks.deck1.isReady() ) {
-				Utils.runInBackground(() -> Decks.deck1.autoLoad());
-			}
-			if ( ! Decks.deck2.isPlaying() && ! Decks.deck2.isReady() ) {
-				Utils.runInBackground(() -> Decks.deck2.autoLoad());
+			if ( Decks.snpIsEnabled() ) {
+				// If either deck isn't ready (or playing), load something there so as to avoid One Job(TM) incidents
+				if ( ! Decks.deck1.isPlaying() && ! Decks.deck1.isReady() ) {
+					Utils.runInBackground(() -> Decks.deck1.autoLoad());
+				}
+				if ( ! Decks.deck2.isPlaying() && ! Decks.deck2.isReady() ) {
+					Utils.runInBackground(() -> Decks.deck2.autoLoad());
+				}
 			}
 		});
 		
