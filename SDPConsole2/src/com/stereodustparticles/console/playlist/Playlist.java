@@ -292,9 +292,9 @@ public class Playlist {
 	
 	// Return the total number of tentative tracks in the playlist
 	// We'll assume that they're all below the list pointer AS IS RIGHT AND PROPER...
-	public static int tentativeTrackCount() {
+	/*public static int tentativeTrackCount() {
 		return playlist.size() - listPointer;
-	}
+	}*/
 	
 	// Find and return the next tentative track that can be automatically loaded to a deck
 	// Return null if none found
