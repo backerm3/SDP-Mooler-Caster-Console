@@ -374,6 +374,11 @@ public class Deck implements Loadable {
 		return closing;
 	}
 	
+	// Return whether or not this deck is ready to play
+	public boolean isReady() {
+		return ready;
+	}
+	
 	// Return our deck number
 	public int getNumber() {
 		return deckNum;
