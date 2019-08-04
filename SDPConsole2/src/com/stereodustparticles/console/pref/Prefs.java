@@ -139,8 +139,8 @@ public class Prefs {
 	private static HashMap<String, Library> getDefaultLibraryList() {
 		HashMap<String, Library> defaultLibs = new HashMap<String, Library>();
 		try {
-			defaultLibs.put("SDP Ads", new CSVLibrary("SDP Ads", new URL("http://www.stereodustparticles.com/sdp-ads/ads.csv"), PlaylistFlags.AD, true, true));
-			defaultLibs.put("SDP Other Media", new CSVLibrary("SDP Other Media", new URL("http://www.stereodustparticles.com/othermedia/othermedia.csv"), PlaylistFlags.NONE, false, false));
+			defaultLibs.put("SDP Ads", new CSVLibrary("SDP Ads", new URL("http://www.stereodustparticles.com/sdp-ads/ads.csv"), PlaylistFlags.AD, true, 1));
+			defaultLibs.put("SDP Other Media", new CSVLibrary("SDP Other Media", new URL("http://www.stereodustparticles.com/othermedia/othermedia.csv"), PlaylistFlags.NONE, false, 0));
 		}
 		catch (MalformedURLException e) {
 			// This should never happen.  If it does, IYLGI must report to the red courtesy club at once!
