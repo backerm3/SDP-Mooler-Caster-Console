@@ -119,8 +119,9 @@ public class LibraryEditor {
 		flagWrap.getChildren().addAll(new Label("Flags:"), flagPane);
 		root.getChildren().add(flagWrap);
 		
-		// Include in MRS/SnP
+		// Include in MRS/SnP Weight
 		VBox includes = new VBox(10);
+		HBox snp = new HBox(5);
 		
 		CheckBox mrs = new CheckBox("Include this library in MRS song lists");
 		if ( lib != null ) {
@@ -130,14 +131,15 @@ public class LibraryEditor {
 			mrs.setSelected(true);
 		}
 		
-		CheckBox snp = new CheckBox("Include this library in Stream 'n' Poop™ auto-cue");
+		TextField snpWeight = new TextField();
 		if ( lib != null ) {
-			snp.setSelected(lib.includeInSnP());
+			snpWeight.setText(Integer.toString(lib.getSnPWeight()));
 		}
-		else { // Default to true
-			snp.setSelected(true);
+		else { // Default to 1
+			snpWeight.setText("1");
 		}
 		
+		snp.getChildren().addAll(new Label("Stream 'n' Poop™ Weight:"), snpWeight);
 		includes.getChildren().addAll(mrs, snp);
 		root.getChildren().add(includes);
 		
@@ -195,6 +197,16 @@ public class LibraryEditor {
 				}
 			}
 			
+			// Is the Stream 'n' Poop™ weight really an integer?
+			int snpWeightConverted;
+			try {
+				snpWeightConverted = Integer.parseInt(snpWeight.getText());
+			}
+			catch ( NumberFormatException e ) {
+				Microwave.showError("Error Saving Library Configuration", "The Stream 'n' Poop™ Weight is supposed to be a number, silly!", stage);
+				return;
+			}
+			
 			// Check what type of library is selected and act accordingly
 			if ( fileSystem.isSelected() ) {
 				File loc = new File(location.getText());
@@ -206,7 +218,7 @@ public class LibraryEditor {
 				}
 				
 				stage.close();
-				LibraryManager.putLibrary(name.getText(), oldName, new FSLibrary(name.getText(), loc, flags, mrs.isSelected(), snp.isSelected()));
+				LibraryManager.putLibrary(name.getText(), oldName, new FSLibrary(name.getText(), loc, flags, mrs.isSelected(), snpWeightConverted));
 				LibraryManagerUI.refreshList();
 				EventBus.fireEvent(new Event(EventType.LIBRARY_LIST_UPDATED));
 			}
@@ -221,7 +233,7 @@ public class LibraryEditor {
 				}
 				
 				stage.close();
-				LibraryManager.putLibrary(name.getText(), oldName, new CSVLibrary(name.getText(), loc, flags, mrs.isSelected(), snp.isSelected()));
+				LibraryManager.putLibrary(name.getText(), oldName, new CSVLibrary(name.getText(), loc, flags, mrs.isSelected(), snpWeightConverted));
 				LibraryManagerUI.refreshList();
 			}
 			else {
