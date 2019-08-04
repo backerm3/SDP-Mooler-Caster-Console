@@ -414,7 +414,7 @@ public class Deck implements Loadable {
 	
 	// Automatically load a track from... somewhere
 	// Used for Stream 'n' Poop(TM)
-	protected void autoLoad() {
+	public void autoLoad() {
 		LibraryEntry nextTrack = Playlist.nextLoadableTentative();
 		
 		while ( nextTrack == null ) {
