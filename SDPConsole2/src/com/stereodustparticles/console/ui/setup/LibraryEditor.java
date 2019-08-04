@@ -122,6 +122,7 @@ public class LibraryEditor {
 		// Include in MRS/SnP Weight
 		VBox includes = new VBox(10);
 		HBox snp = new HBox(5);
+		snp.setAlignment(Pos.CENTER_LEFT);
 		
 		CheckBox mrs = new CheckBox("Include this library in MRS song lists");
 		if ( lib != null ) {
@@ -132,6 +133,7 @@ public class LibraryEditor {
 		}
 		
 		TextField snpWeight = new TextField();
+		snpWeight.setPrefWidth(40);
 		if ( lib != null ) {
 			snpWeight.setText(Integer.toString(lib.getSnPWeight()));
 		}
