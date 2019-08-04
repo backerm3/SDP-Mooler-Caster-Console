@@ -15,6 +15,8 @@ import com.stereodustparticles.console.error.HTTPException;
 import com.stereodustparticles.console.error.ModemDefenestrationException;
 import com.stereodustparticles.console.ui.Microwave;
 
+import javafx.application.Platform;
+
 /*
  * SDP Mooler Caster Console - version 2
  * Simple DJ software for "Mooler Casting" operations
@@ -112,7 +114,7 @@ public class CSVLibrary implements Library {
 					e.setFile(csv.toString());
 					
 					// Show the error here, rather than throw the exception up the chain, so we can continue trying to parse the rest of the file
-					Microwave.showWarning("Error Loading Library", "Got a bad line while parsing the SDP spot list.  Tell Weasel he only had ONE JOB!\n\nLine: " + e.getOffendingLine() + "\nFile: " + e.getFile());
+					Platform.runLater(() -> Microwave.showWarning("Error Loading Library", "Got a bad line while parsing the SDP spot list.  Tell Weasel he only had ONE JOB!\n\nLine: " + e.getOffendingLine() + "\nFile: " + e.getFile()));
 				}
 			}
 			
