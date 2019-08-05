@@ -297,6 +297,12 @@ public class MoolerCasterMenu extends MenuBar {
 				}
 			}
 			*/
+			
+			// Potentially better idea:
+			// Pop up a warning message if the user enables Stream 'n' Poop(TM) without both decks ready (or playing)
+			if ( Decks.snpIsEnabled() && ( ! (Decks.deck1.isPlaying() || Decks.deck1.isReady()) || ! (Decks.deck2.isPlaying() || Decks.deck2.isReady()) ) ) {
+				Microwave.showWarning("To Avoid a ONE JOB Situation...", "Remember to load BOTH decks before leaving Stream 'n' Poop™ to do its thing!");
+			}
 		});
 		
 		options.getItems().addAll(libs, sbSize, deckPrefs, plPrefs, configMRS, miscPrefs, mcSetup, new SeparatorMenuItem(), snp);
