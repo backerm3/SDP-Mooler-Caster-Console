@@ -286,6 +286,7 @@ public class MoolerCasterMenu extends MenuBar {
 			Decks.setSNPEnabled(! Decks.snpIsEnabled());
 			snp.setSelected(Decks.snpIsEnabled());
 			
+			/* TODO Is this really a good idea?
 			if ( Decks.snpIsEnabled() ) {
 				// If either deck isn't ready (or playing), load something there so as to avoid One Job(TM) incidents
 				if ( ! Decks.deck1.isPlaying() && ! Decks.deck1.isReady() ) {
@@ -295,6 +296,7 @@ public class MoolerCasterMenu extends MenuBar {
 					Utils.runInBackground(() -> Decks.deck2.autoLoad());
 				}
 			}
+			*/
 		});
 		
 		options.getItems().addAll(libs, sbSize, deckPrefs, plPrefs, configMRS, miscPrefs, mcSetup, new SeparatorMenuItem(), snp);
