@@ -171,7 +171,7 @@
 			<manifest>
 				<attribute name="Implementation-Vendor" value="Stereo Dust Particles"/>
 				<attribute name="Implementation-Title" value="Mooler Caster Console"/>
-				<attribute name="Implementation-Version" value="2.02"/>
+				<attribute name="Implementation-Version" value="2.03"/>
 				<attribute name="JavaFX-Feature-Proxy" value="None"/>
 			</manifest>
 		</fx:jar>
