@@ -374,6 +374,11 @@ public class Deck implements Loadable {
 		return closing;
 	}
 	
+	// Return whether or not this deck is ready to play
+	public boolean isReady() {
+		return ready;
+	}
+	
 	// Return our deck number
 	public int getNumber() {
 		return deckNum;
@@ -409,7 +414,7 @@ public class Deck implements Loadable {
 	
 	// Automatically load a track from... somewhere
 	// Used for Stream 'n' Poop(TM)
-	protected void autoLoad() {
+	public void autoLoad() {
 		LibraryEntry nextTrack = Playlist.nextLoadableTentative();
 		
 		while ( nextTrack == null ) {

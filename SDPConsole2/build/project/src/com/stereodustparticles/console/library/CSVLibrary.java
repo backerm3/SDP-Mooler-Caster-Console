@@ -15,6 +15,8 @@ import com.stereodustparticles.console.error.HTTPException;
 import com.stereodustparticles.console.error.ModemDefenestrationException;
 import com.stereodustparticles.console.ui.Microwave;
 
+import javafx.application.Platform;
+
 /*
  * SDP Mooler Caster Console - version 2
  * Simple DJ software for "Mooler Casting" operations
@@ -32,19 +34,20 @@ public class CSVLibrary implements Library {
 	private int flags;
 	private transient List<LibraryEntry> list;
 	private boolean allowMRS;
-	private boolean allowSnP;
+	private boolean allowSnP; // Retained to avoid issues when deserializing old libraries
+	private int SnPWeight;
 	
 	// Lame hack to allow updating parameters in old serialized instances
 	// Despite this assignment here, a deserialized object will have this set
 	// to whatever its value was when it was serialized
-	private int apiLevel = 3;
+	private int apiLevel = 4;
 	
-	public CSVLibrary(String name, URL csv, int flags, boolean allowMRS, boolean allowSnP) {
+	public CSVLibrary(String name, URL csv, int flags, boolean allowMRS, int SnPWeight) {
 		this.name = name;
 		this.csv = csv;
 		this.flags = flags;
 		this.allowMRS = allowMRS;
-		this.allowSnP = allowSnP;
+		this.SnPWeight = SnPWeight;
 	}
 	
 	@Override
@@ -56,8 +59,18 @@ public class CSVLibrary implements Library {
 			allowMRS = defaultAllow;
 		}
 		
+		// API level < 4: Convert SnP allow to SnP Weight
+		if ( apiLevel < 4 ) {
+			if ( allowSnP ) {
+				SnPWeight = 1;
+			}
+			else {
+				SnPWeight = 0;
+			}
+		}
+		
 		// Done, set new API level
-		apiLevel = 3;
+		apiLevel = 4;
 	}
 	
 	@Override
@@ -101,7 +114,7 @@ public class CSVLibrary implements Library {
 					e.setFile(csv.toString());
 					
 					// Show the error here, rather than throw the exception up the chain, so we can continue trying to parse the rest of the file
-					Microwave.showWarning("Error Loading Library", "Got a bad line while parsing the SDP spot list.  Tell Weasel he only had ONE JOB!\n\nLine: " + e.getOffendingLine() + "\nFile: " + e.getFile());
+					Platform.runLater(() -> Microwave.showWarning("Error Loading Library", "Got a bad line while parsing the SDP spot list.  Tell Weasel he only had ONE JOB!\n\nLine: " + e.getOffendingLine() + "\nFile: " + e.getFile()));
 				}
 			}
 			
@@ -213,8 +226,8 @@ public class CSVLibrary implements Library {
 	}
 
 	@Override
-	public boolean includeInSnP() {
-		return allowSnP;
+	public int getSnPWeight() {
+		return SnPWeight;
 	}
 
 }

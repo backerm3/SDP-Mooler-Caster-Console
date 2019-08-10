@@ -319,7 +319,7 @@ public class MoolerCasterView {
 		                selTrk.setText("Loading library, please wait...");
 		                Utils.runInBackground(() -> {
 		                	LibraryEntry cEntry = libView.getSelectionModel().selectedItemProperty().get();
-		                	if ( cEntry.isDir() ) {
+		                	if ( cEntry != null && cEntry.isDir() ) {
 		                		Library cLibrary = LibraryManager.getLibraryForName(libMenu.getSelectionModel().selectedItemProperty().get());
 			    				cLibrary.changeDir(cEntry.getTitle());
 			                	updateLibView(cLibrary);

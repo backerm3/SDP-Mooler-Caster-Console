@@ -22,7 +22,7 @@ public interface Library extends Serializable {
 	public String getName(); // Return this library's name
 	public int getDefaultFlags(); // Return this library's default playlist flags
 	public boolean includeInSongLists(); // Return whether this library may be included in MRS song lists
-	public boolean includeInSnP(); // Return whether this library may be included in Stream 'n' Poop(TM) (when auto-selecting tracks)
+	public int getSnPWeight(); // Return this library's weight for Stream 'n' Poop(TM)
 	public boolean changeDir(String dir); // Change directories
 	public boolean upOneLevel(); // Go up to the parent directory
 	public boolean canGoUp(); // Return whether or not we can go up a level

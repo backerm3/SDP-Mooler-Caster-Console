@@ -88,6 +88,9 @@ public class MRSListGenerator {
 				for ( String libName : LibraryManager.getAvailableLibraries() ) {
 					Library lib = LibraryManager.getLibraryForName(libName);
 					
+					// Reset library to root (fixes "song list of only one folder" bug)
+					lib.backToRoot();
+					
 					// If library doesn't have inclusion in song lists enabled, skip it
 					if ( ! lib.includeInSongLists() ) {
 						continue;
@@ -106,7 +109,7 @@ public class MRSListGenerator {
 			}
 			catch (IOException e) {
 				Platform.runLater(() -> {
-					Microwave.showException("Error Generating Song List", "An error occurred while writing the song list.  Check that your selected file is writable, then try again.\n\nIf the problem persists, a trip to the pool is definitely in order.", e, stage);
+					Microwave.showException("Error Generating Song List", "An error occurred while writing the output file.  Check that your selected file is writable, then try again.\n\nIf the problem persists, a trip to the pool is definitely in order.", e, stage);
 					stage.close();
 				});
 			}

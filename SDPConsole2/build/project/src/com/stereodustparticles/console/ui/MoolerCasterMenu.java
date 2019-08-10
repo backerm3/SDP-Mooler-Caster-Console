@@ -285,6 +285,24 @@ public class MoolerCasterMenu extends MenuBar {
 		snp.setOnAction((e) -> {
 			Decks.setSNPEnabled(! Decks.snpIsEnabled());
 			snp.setSelected(Decks.snpIsEnabled());
+			
+			/* TODO Is this really a good idea?
+			if ( Decks.snpIsEnabled() ) {
+				// If either deck isn't ready (or playing), load something there so as to avoid One Job(TM) incidents
+				if ( ! Decks.deck1.isPlaying() && ! Decks.deck1.isReady() ) {
+					Utils.runInBackground(() -> Decks.deck1.autoLoad());
+				}
+				if ( ! Decks.deck2.isPlaying() && ! Decks.deck2.isReady() ) {
+					Utils.runInBackground(() -> Decks.deck2.autoLoad());
+				}
+			}
+			*/
+			
+			// Potentially better idea:
+			// Pop up a warning message if the user enables Stream 'n' Poop(TM) without both decks ready (or playing)
+			if ( Decks.snpIsEnabled() && ( ! (Decks.deck1.isPlaying() || Decks.deck1.isReady()) || ! (Decks.deck2.isPlaying() || Decks.deck2.isReady()) ) ) {
+				Microwave.showWarning("To Avoid a ONE JOB Situation...", "Remember to load BOTH decks before leaving Stream 'n' Poop™ to do its thing!");
+			}
 		});
 		
 		options.getItems().addAll(libs, sbSize, deckPrefs, plPrefs, configMRS, miscPrefs, mcSetup, new SeparatorMenuItem(), snp);

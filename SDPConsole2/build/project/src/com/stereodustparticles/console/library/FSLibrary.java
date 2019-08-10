@@ -23,13 +23,14 @@ public class FSLibrary implements Library {
 	private String name;
 	private int flags;
 	private boolean allowMRS;
-	private boolean allowSnP;
+	private boolean allowSnP; // Retained to prevent issues when deserializing old libraries
+	private int SnPWeight;
 	private transient Map<File, List<LibraryEntry>> dirListCache;
 	
 	// Lame hack to allow updating parameters in old serialized instances
 	// Despite this assignment here, a deserialized object will have this set
 	// to whatever its value was when it was serialized
-	private int apiLevel = 3;
+	private int apiLevel = 4;
 	
 	// Subclass that defines the comparison rules used to sort a directory listing
 	private class FSLibraryComparator implements Comparator<File> {
@@ -51,13 +52,13 @@ public class FSLibrary implements Library {
 		
 	}
 	
-	public FSLibrary(String name, File baseDir, int flags, boolean allowMRS, boolean allowSnP) {
+	public FSLibrary(String name, File baseDir, int flags, boolean allowMRS, int SnPWeight) {
 		this.baseDir = baseDir;
 		this.currentDir = baseDir;
 		this.name = name;
 		this.flags = flags;
 		this.allowMRS = allowMRS;
-		this.allowSnP = allowSnP;
+		this.SnPWeight = SnPWeight;
 	}
 	
 	@Override
@@ -68,8 +69,18 @@ public class FSLibrary implements Library {
 			allowSnP = true;
 		}
 		
+		// API level < 4: Convert SnP allow to SnP weight
+		if ( apiLevel < 4 ) {
+			if ( allowSnP ) {
+				SnPWeight = 1;
+			}
+			else {
+				SnPWeight = 0;
+			}
+		}
+		
 		// Done, set new API level
-		apiLevel = 3;
+		apiLevel = 4;
 	}
 	
 	@Override
@@ -197,7 +208,7 @@ public class FSLibrary implements Library {
 	public LibraryEntry pickRandomTrack() throws Exception {
 		LibraryEntry ret = null;
 		
-		File startDir = currentDir;
+		String startDir = currentDir.toString();
 		
 		backToRoot();
 		
@@ -222,7 +233,7 @@ public class FSLibrary implements Library {
 			}
 		}
 		
-		currentDir = startDir;
+		currentDir = new File(startDir);
 		
 		return ret;
 	}
@@ -238,8 +249,8 @@ public class FSLibrary implements Library {
 	}
 
 	@Override
-	public boolean includeInSnP() {
-		return allowSnP;
+	public int getSnPWeight() {
+		return SnPWeight;
 	}
 
 }

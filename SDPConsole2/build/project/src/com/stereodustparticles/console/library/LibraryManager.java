@@ -56,7 +56,10 @@ public class LibraryManager {
 		ArrayList<Library> libList = new ArrayList<Library>();
 		
 		for ( Library lib : libraryList.values() ) {
-			if ( lib.includeInSnP() ) {
+			// Add the library to the list a number of times equal to its SnP weight
+			// (so it's that much more likely to be picked)
+			// Yeah, I know it's a lame hack, but it should work...
+			for ( int i = 0; i < lib.getSnPWeight(); i++ ) {
 				libList.add(lib);
 			}
 		}
