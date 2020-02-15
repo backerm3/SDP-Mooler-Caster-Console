@@ -40,6 +40,7 @@ public class DeckSetup {
 		root.setAlignment(Pos.CENTER_LEFT);
 		root.setPadding(new Insets(20, 25, 20, 25));
 		
+		// Controls for Flash Deck Timer
 		HBox flashSet = new HBox(8);
 		flashSet.setAlignment(Pos.CENTER_LEFT);
 		flashPt = new Spinner<Integer>(0, 120, Prefs.loadInt(Prefs.FLASH_POINT));
@@ -48,6 +49,7 @@ public class DeckSetup {
 		flashSet.getChildren().addAll(new Label("Flash the deck timer when"), flashPt, new Label("seconds remain in playback."));
 		root.getChildren().add(flashSet);
 		
+		// Controls for Auto Add Tentative
 		autoTent = new CheckBox("Automatically add tentative tracks to the playlist when loading the decks");
 		autoTent.setSelected(Prefs.loadBoolean(Prefs.AUTO_ADD_TENTATIVE));
 		root.getChildren().add(autoTent);
