@@ -357,7 +357,6 @@ public class Deck implements Loadable {
 	}
 	
 	// Re-cue the current song (a.k.a. reload the file)
-	// Maybe at some point we can actually make this cue to music (like it really should)
 	public void cue() {
 		if ( audioFile != null ) {
 			load(audioFile);
